@@ -23,11 +23,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.kev.instantsystem.domain.model.Article
 import com.kev.instantsystem.ui.components.LoaderScreen
 import com.kev.instantsystem.ui.components.LoaderState
 import com.kev.instantsystem.ui.home.NewsDetailPane
 import com.kev.instantsystem.ui.home.NewsListScreenPaging
-import com.kev.instantsystem.ui.model.Article
 import kotlinx.coroutines.launch
 
 @Composable

@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.kev.ynfluence.ui.screens.news.domain.usecase.SearchEverythingUseCase
-import com.kev.instantsystem.ui.model.Article
+import com.kev.instantsystem.domain.model.Article
+import com.kev.instantsystem.domain.usecase.SearchEverythingUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -33,7 +33,7 @@ class SearchViewModel @Inject constructor(
 
     val searchResults: Flow<PagingData<Article>> = _query
         .filter { it.length >= 3 && it.isNotBlank() } // Avoid calling too early
-        .debounce(400) // Avoid spamming calls while typing
+        .debounce(400)
         .distinctUntilChanged()
         .flatMapLatest { query ->
             searchEverythingUseCase(query = query)

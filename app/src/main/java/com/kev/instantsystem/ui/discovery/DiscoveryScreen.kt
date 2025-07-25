@@ -1,4 +1,4 @@
-package com.kev.ynfluence.ui.screens.news.ui.discovery
+package com.kev.instantsystem.ui.discovery
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
@@ -14,11 +14,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.kev.instantsystem.ui.discovery.DiscoveryListPane
-import com.kev.instantsystem.ui.discovery.DiscoveryViewModel
+import com.kev.instantsystem.domain.model.Article
+import com.kev.instantsystem.domain.model.Source
 import com.kev.instantsystem.ui.home.NewsDetailPane
-import com.kev.instantsystem.ui.model.Article
-import com.kev.instantsystem.ui.model.Source
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 

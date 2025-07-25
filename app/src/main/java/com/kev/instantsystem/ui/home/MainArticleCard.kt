@@ -23,8 +23,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.kev.instantsystem.ui.model.Article
-import com.kev.instantsystem.ui.model.Source
+import com.kev.instantsystem.domain.model.Article
+import com.kev.instantsystem.domain.model.Source
 
 @Composable
 fun MainArticleCard(

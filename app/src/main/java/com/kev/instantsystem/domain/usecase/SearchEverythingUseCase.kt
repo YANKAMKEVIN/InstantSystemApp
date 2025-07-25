@@ -1,8 +1,8 @@
 package com.kev.instantsystem.domain.usecase
 
 import androidx.paging.PagingData
-import com.kev.instantsystem.domain.repository.NewsRepository
 import com.kev.instantsystem.domain.model.Article
+import com.kev.instantsystem.domain.repository.NewsRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
