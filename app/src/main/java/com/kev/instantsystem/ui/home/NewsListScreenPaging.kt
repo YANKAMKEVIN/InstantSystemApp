@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
-import com.kev.instantsystem.ui.model.Article
+import com.kev.instantsystem.domain.model.Article
 
 @Composable
 fun NewsListScreenPaging(

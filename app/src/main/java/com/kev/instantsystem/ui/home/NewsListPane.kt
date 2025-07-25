@@ -6,12 +6,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.kev.instantsystem.domain.model.Article
+import com.kev.instantsystem.domain.model.Source
 import com.kev.instantsystem.ui.components.EmptyListPlaceholder
 import com.kev.instantsystem.ui.components.LoaderScreen
 import com.kev.instantsystem.ui.components.LoaderState
-import com.kev.instantsystem.ui.model.Article
-import com.kev.instantsystem.ui.model.Source
-import com.kev.ynfluence.ui.widgets.tabrow.ScrollableTabRowComponent
+import com.kev.instantsystem.ui.components.ScrollableTabRowComponent
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
