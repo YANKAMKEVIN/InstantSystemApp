@@ -1,6 +1,5 @@
 package com.kev.instantsystem.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -12,15 +11,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = Brand()._500,
+    onPrimary = Brand()._100,
+    secondary = Neutral()._500,
+    onSecondary = Brand()._100,
+    background = Neutral()._700,
+    surface = Neutral()._800,
+    onSurface = Neutral()._000
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+    primary = Purple500,
+    onPrimary = Purple700,
+    secondary = Purple200
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
@@ -52,6 +55,7 @@ fun InstantSystemTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
+        shapes = Shapes,
         typography = Typography,
         content = content
     )
