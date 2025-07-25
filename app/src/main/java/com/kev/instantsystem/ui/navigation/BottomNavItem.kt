@@ -6,7 +6,7 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.kev.ynfluence.R
+import com.kev.instantsystem.R
 
 sealed class BottomNavItem(
     val route: String,
@@ -25,7 +25,7 @@ sealed class BottomNavItem(
         BottomNavItem(
             route = NavigationRoutes.HOME,
             label = "Headlines",
-            iconRes = R.drawable.blue_white_bold_music_logo__6_
+            iconRes = R.drawable.headlines_logo
         )
 
     data object Search : BottomNavItem(
