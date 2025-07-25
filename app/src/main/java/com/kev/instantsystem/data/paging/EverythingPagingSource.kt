@@ -5,7 +5,7 @@ import androidx.paging.PagingState
 import com.kev.instantsystem.data.mapper.toDomain
 import com.kev.instantsystem.data.network.NetworkResponse
 import com.kev.instantsystem.data.remote.datasource.NewsRemoteDataSource
-import com.kev.ynfluence.ui.screens.news.ui.model.Article
+import com.kev.instantsystem.domain.model.Article
 
 /**
  * PagingSource for fetching paginated news results from the `/v2/everything` endpoint.
