@@ -3,7 +3,7 @@ package com.kev.instantsystem.data.di
 import com.kev.instantsystem.data.paging.EverythingPagingSourceFactory
 import com.kev.instantsystem.data.paging.NewsPagingSourceFactory
 import com.kev.instantsystem.data.repository.NewsRepositoryImpl
-import com.kev.ynfluence.ui.screens.news.domain.repository.NewsRepository
+import com.kev.instantsystem.domain.repository.NewsRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

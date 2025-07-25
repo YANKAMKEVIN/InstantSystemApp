@@ -2,7 +2,7 @@ package com.kev.instantsystem.data.paging
 
 import androidx.paging.PagingSource
 import com.kev.instantsystem.data.remote.datasource.NewsRemoteDataSource
-import com.kev.ynfluence.ui.screens.news.ui.model.Article
+import com.kev.instantsystem.domain.model.Article
 import javax.inject.Inject
 
 /**

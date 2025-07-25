@@ -6,8 +6,8 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.kev.instantsystem.data.paging.EverythingPagingSourceFactory
 import com.kev.instantsystem.data.paging.NewsPagingSourceFactory
-import com.kev.ynfluence.ui.screens.news.domain.repository.NewsRepository
-import com.kev.ynfluence.ui.screens.news.ui.model.Article
+import com.kev.instantsystem.domain.repository.NewsRepository
+import com.kev.instantsystem.domain.model.Article
 import kotlinx.coroutines.flow.Flow
 
 /**

@@ -1,8 +1,8 @@
-package com.kev.ynfluence.ui.screens.news.domain.usecase
+package com.kev.instantsystem.domain.usecase
 
 import androidx.paging.PagingData
-import com.kev.ynfluence.ui.screens.news.domain.repository.NewsRepository
-import com.kev.ynfluence.ui.screens.news.ui.model.Article
+import com.kev.instantsystem.domain.repository.NewsRepository
+import com.kev.instantsystem.domain.model.Article
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

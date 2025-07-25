@@ -3,8 +3,8 @@ package com.kev.instantsystem.data.mapper
 import com.kev.instantsystem.data.dto.ArticleDto
 import com.kev.instantsystem.data.dto.NewsDto
 import com.kev.instantsystem.data.dto.SourceDto
-import com.kev.ynfluence.ui.screens.news.ui.model.Article
-import com.kev.ynfluence.ui.screens.news.ui.model.Source
+import com.kev.instantsystem.domain.model.Article
+import com.kev.instantsystem.domain.model.Source
 
 fun ArticleDto.toDomain(): Article = Article(
     source = source.toDomain(),

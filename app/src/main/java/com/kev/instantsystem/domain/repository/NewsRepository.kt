@@ -1,7 +1,7 @@
-package com.kev.ynfluence.ui.screens.news.domain.repository
+package com.kev.instantsystem.domain.repository
 
 import androidx.paging.PagingData
-import com.kev.ynfluence.ui.screens.news.ui.model.Article
+import com.kev.instantsystem.domain.model.Article
 import kotlinx.coroutines.flow.Flow
 
 /**
