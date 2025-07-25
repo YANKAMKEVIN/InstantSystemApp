@@ -3,10 +3,10 @@ package com.kev.instantsystem.ui.discovery
 import androidx.compose.runtime.Composable
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
+import com.kev.instantsystem.domain.model.Article
 import com.kev.instantsystem.ui.components.LoaderScreen
 import com.kev.instantsystem.ui.components.LoaderState
 import com.kev.instantsystem.ui.home.NewsListScreenPaging
-import com.kev.instantsystem.ui.model.Article
 
 @Composable
 fun DiscoveryListPane(
