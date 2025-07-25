@@ -7,8 +7,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.kev.instantsystem.ui.model.Article
-import com.kev.instantsystem.ui.model.Source
+import com.kev.instantsystem.domain.model.Article
+import com.kev.instantsystem.domain.model.Source
 
 @Composable
 fun ArticleDetailsScreen(
