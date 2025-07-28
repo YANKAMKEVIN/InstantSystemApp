@@ -27,19 +27,21 @@ import com.kev.instantsystem.domain.model.Article
 import com.kev.instantsystem.ui.components.EmptyListPlaceholder
 import com.kev.instantsystem.ui.components.LoaderScreen
 import com.kev.instantsystem.ui.components.LoaderState
-import com.kev.instantsystem.ui.home.NewsDetailPane
-import com.kev.instantsystem.ui.home.NewsListScreenPaging
+import com.kev.instantsystem.ui.components.NewsDetailPane
+import com.kev.instantsystem.ui.components.NewsListScreenPaging
 import com.kev.instantsystem.ui.placeholder.ScreenPlaceholder
 import kotlinx.coroutines.launch
 
 @Composable
 fun SearchRoute(
+    onDetailVisibilityChanged: (Boolean) -> Unit,
     viewModel: SearchViewModel = hiltViewModel()
 ) {
     val query = viewModel.query.collectAsState().value
     val articles = viewModel.searchResults.collectAsLazyPagingItems()
     SearchScreen(
         query = query,
+        onDetailVisibilityChanged = onDetailVisibilityChanged,
         onQueryChange = viewModel::onQueryChanged,
         articles = articles
     )
@@ -49,6 +51,7 @@ fun SearchRoute(
 @Composable
 fun SearchScreen(
     query: String,
+    onDetailVisibilityChanged: (Boolean) -> Unit,
     onQueryChange: (String) -> Unit,
     articles: LazyPagingItems<Article>,
     modifier: Modifier = Modifier
@@ -110,6 +113,7 @@ fun SearchScreen(
         },
         detailPane = {
             val content = navigator.currentDestination?.contentKey as Article?
+            onDetailVisibilityChanged(content != null)
             AnimatedPane {
                 NewsDetailPane(
                     article = content,

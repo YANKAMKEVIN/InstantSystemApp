@@ -1,4 +1,4 @@
-package com.kev.instantsystem.ui.discovery
+package com.kev.instantsystem.ui.headlines
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
@@ -12,38 +12,46 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.PagingData
-import androidx.paging.compose.LazyPagingItems
-import androidx.paging.compose.collectAsLazyPagingItems
 import com.kev.instantsystem.domain.model.Article
-import com.kev.instantsystem.domain.model.Source
-import com.kev.instantsystem.ui.home.NewsDetailPane
+import com.kev.instantsystem.ui.components.NewsDetailPane
+import com.kev.instantsystem.ui.components.NewsListPane
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 
 @Composable
-fun DiscoveryRoute(
+fun HeadlinesRoute(
     modifier: Modifier = Modifier,
-    viewModel: DiscoveryViewModel = hiltViewModel()
+    onDetailVisibilityChanged: (Boolean) -> Unit,
+    viewModel: HeadlinesViewModel = hiltViewModel()
 ) {
-    val articles = viewModel.discoveryArticles.collectAsLazyPagingItems()
-    DiscoveryScreen(modifier = modifier, articles = articles)
+    HeadlinesScreen(
+        modifier = modifier,
+        onDetailVisibilityChanged = onDetailVisibilityChanged,
+        categories = viewModel.categories,
+        articlesMap = viewModel.articlesMap
+    )
 }
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
-private fun DiscoveryScreen(
+fun HeadlinesScreen(
     modifier: Modifier = Modifier,
-    articles: LazyPagingItems<Article>
+    onDetailVisibilityChanged: (Boolean) -> Unit,
+    categories: List<ArticleCategory>,
+    articlesMap: Map<ArticleCategory, Flow<PagingData<Article>>>
 ) {
     val navigator = rememberListDetailPaneScaffoldNavigator<Any>()
     val scope = rememberCoroutineScope()
 
     NavigableListDetailPaneScaffold(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize(),
         navigator = navigator,
         listPane = {
-            DiscoveryListPane(
-                articles = articles,
+            NewsListPane(
+                categories = categories,
+                articlesMap = articlesMap,
                 onArticleClick = { article ->
                     scope.launch {
                         navigator.navigateTo(
@@ -51,42 +59,38 @@ private fun DiscoveryScreen(
                             contentKey = article
                         )
                     }
+
                 }
             )
         },
         detailPane = {
             val content = navigator.currentDestination?.contentKey as Article?
+            onDetailVisibilityChanged(content != null)
             AnimatedPane {
                 NewsDetailPane(
                     article = content,
                 )
             }
-        }
+        },
     )
 }
 
-@Preview(showBackground = true, name = "DiscoveryScreen Preview")
+@Preview(showBackground = true, name = "HomeScreen Preview")
 @Composable
-private fun PreviewDiscoveryScreen() {
-    val fakeArticles = flowOf(
-        PagingData.from(
-            listOf(
-                Article(
-                    title = "Titre fictif",
-                    description = "Ceci est un article fictif.",
-                    content = "Contenu complet fictif...",
-                    url = "https://example.com/fake",
-                    publishedAt = "2025-07-24T12:00:00Z",
-                    source = Source(
-                        "fake-id",
-                        "Source Fictive"
-                    ),
-                    author = "Auteur Test",
-                    urlToImage = null
-                )
-            )
-        )
-    ).collectAsLazyPagingItems()
+private fun PreviewHomeScreen() {
+    val dummyCategories = listOf(
+        ArticleCategory.Latest,
+        ArticleCategory.Science,
+        ArticleCategory.Sports
+    )
 
-    DiscoveryScreen(articles = fakeArticles)
+    val dummyArticlesFlow = flowOf(PagingData.empty<Article>())
+
+    val dummyArticlesMap = dummyCategories.associateWith { dummyArticlesFlow }
+
+    HeadlinesScreen(
+        onDetailVisibilityChanged = {},
+        categories = dummyCategories,
+        articlesMap = dummyArticlesMap
+    )
 }

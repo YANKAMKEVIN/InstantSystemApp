@@ -1,4 +1,4 @@
-package com.kev.instantsystem.ui.home
+package com.kev.instantsystem.ui.components
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -8,10 +8,7 @@ import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.kev.instantsystem.domain.model.Article
 import com.kev.instantsystem.domain.model.Source
-import com.kev.instantsystem.ui.components.EmptyListPlaceholder
-import com.kev.instantsystem.ui.components.LoaderScreen
-import com.kev.instantsystem.ui.components.LoaderState
-import com.kev.instantsystem.ui.components.ScrollableTabRowComponent
+import com.kev.instantsystem.ui.headlines.ArticleCategory
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 

@@ -1,4 +1,4 @@
-package com.kev.instantsystem.ui.home
+package com.kev.instantsystem.ui.headlines
 
 sealed class ArticleCategory(val label: String, val category: String?) {
     data object Latest : ArticleCategory("Latest", null)

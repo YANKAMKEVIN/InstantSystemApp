@@ -1,8 +1,8 @@
 package com.kev.instantsystem.ui.navigation
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -24,7 +24,7 @@ sealed class BottomNavItem(
     data object Home :
         BottomNavItem(
             route = NavigationRoutes.HOME,
-            label = "Headlines",
+            label = "Home",
             iconRes = R.drawable.headlines_logo,
 
             )
@@ -42,11 +42,11 @@ sealed class BottomNavItem(
             defaultIcon = Icons.Default.Favorite
         )
 
-    data object Discovery :
+    data object Headlines :
         BottomNavItem(
-            route = NavigationRoutes.DISCOVERY,
-            label = "Discovery",
-            defaultIcon = Icons.Default.Email
+            route = NavigationRoutes.HEADLINES,
+            label = "Headlines",
+            defaultIcon = Icons.Default.Info
         )
 
     data object Menu : BottomNavItem(
@@ -56,6 +56,6 @@ sealed class BottomNavItem(
     )
 
     companion object {
-        val allItems = listOf(Home, Search, Bookmarks, Discovery, Menu)
+        val allItems = listOf(Home, Search, Headlines, Bookmarks, Menu)
     }
 }

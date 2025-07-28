@@ -1,4 +1,4 @@
-package com.kev.instantsystem.ui.home
+package com.kev.instantsystem.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
