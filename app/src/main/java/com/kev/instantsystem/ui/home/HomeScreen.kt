@@ -7,8 +7,10 @@ import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
 import androidx.compose.material3.adaptive.navigation.NavigableListDetailPaneScaffold
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.PagingData
@@ -27,6 +29,14 @@ fun HomeRoute(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val articles = viewModel.discoveryArticles.collectAsLazyPagingItems()
+
+    val locale = LocalContext.current.resources.configuration.locales.get(0)
+    val languageCode = locale.language
+
+    LaunchedEffect(Unit) {
+        viewModel.setLanguage(languageCode)
+    }
+
     HomeScreen(
         modifier = modifier,
         articles = articles,

@@ -43,14 +43,18 @@ class HomeViewModelTest {
 
     @Before
     fun setup() {
-        coEvery { useCase("technology", any(), any(), any(), any()) } returns flowOf(
-            PagingData.from(listOf(fakeArticle))
-        )
+        coEvery {
+            useCase(query = "technology", language = "fr", sortBy = any(), from = any(), to = any())
+        } returns flowOf(PagingData.from(listOf(fakeArticle)))
+
         viewModel = HomeViewModel(useCase)
     }
 
     @Test
     fun `discoveryArticles emits expected article`() = runTest(dispatcher) {
+        // Simule le changement de langue comme dans HomeRoute (LaunchedEffect)
+        viewModel.setLanguage("fr")
+
         val result = viewModel.discoveryArticles.first()
 
         val differ = AsyncPagingDataDiffer(
@@ -68,3 +72,4 @@ class HomeViewModelTest {
         assertEquals("Tech news 2025", items[0].title)
     }
 }
+

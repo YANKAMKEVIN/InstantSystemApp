@@ -175,7 +175,7 @@ class NewsPagingSourceTest {
         )
 
         val pagingSource = NewsPagingSource(
-            remoteDataSource = NewsRepositoryImplTest.FakeRemoteDataSource(),
+            remoteDataSource = FakeRemoteDataSource(),
             country = "fr",
             category = null,
             query = null
