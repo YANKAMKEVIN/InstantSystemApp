@@ -50,11 +50,11 @@ fun SearchRoute(
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
 fun SearchScreen(
+    modifier: Modifier = Modifier,
     query: String,
     onDetailVisibilityChanged: (Boolean) -> Unit,
     onQueryChange: (String) -> Unit,
     articles: LazyPagingItems<Article>,
-    modifier: Modifier = Modifier
 ) {
     val navigator = rememberListDetailPaneScaffoldNavigator<Any>()
     val scope = rememberCoroutineScope()
