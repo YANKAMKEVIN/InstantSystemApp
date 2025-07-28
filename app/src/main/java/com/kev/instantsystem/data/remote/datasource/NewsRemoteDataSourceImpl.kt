@@ -1,5 +1,6 @@
 package com.kev.instantsystem.data.remote.datasource
 
+import com.kev.instantsystem.BuildConfig
 import com.kev.instantsystem.data.dto.NewsDto
 import com.kev.instantsystem.data.network.NetworkResponse
 import com.kev.instantsystem.data.network.NetworkUtil
@@ -10,9 +11,7 @@ class NewsRemoteDataSourceImpl @Inject constructor(
     private val apiService: NewsApiService
 ) : NewsRemoteDataSource {
 
-    companion object {
-        private const val API_KEY = "b5f5faa79e13469f89f649153af7e4c8"
-    }
+    private val apiKey = BuildConfig.NEWS_API_KEY
 
     /**
      * Calls the News API to fetch top headlines.
@@ -32,7 +31,7 @@ class NewsRemoteDataSourceImpl @Inject constructor(
                 query = query,
                 page = page,
                 pageSize = pageSize,
-                apiKey = API_KEY
+                apiKey = apiKey
             )
         }
     }
@@ -52,7 +51,7 @@ class NewsRemoteDataSourceImpl @Inject constructor(
     ): NetworkResponse<NewsDto> {
         return NetworkUtil.executeApiCall {
             apiService.getEverything(
-                apiKey = API_KEY,
+                apiKey = apiKey,
                 query = query,
                 sortBy = sortBy,
                 from = from,
