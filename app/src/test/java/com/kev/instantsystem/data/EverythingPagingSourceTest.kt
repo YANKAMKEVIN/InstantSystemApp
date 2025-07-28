@@ -142,7 +142,7 @@ class EverythingPagingSourceTest {
         )
 
         val pagingSource = EverythingPagingSource(
-            dataSource = NewsRepositoryImplTest.FakeRemoteDataSource(),
+            dataSource = FakeRemoteDataSource(),
             query = "kotlin",
             sortBy = null,
             from = null,

@@ -9,7 +9,6 @@ import com.kev.instantsystem.domain.model.Article
  */
 class ArticleDiffCallback : DiffUtil.ItemCallback<Article>() {
     override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
-        // You can improve this based on your data
         return oldItem.url == newItem.url
     }
 
