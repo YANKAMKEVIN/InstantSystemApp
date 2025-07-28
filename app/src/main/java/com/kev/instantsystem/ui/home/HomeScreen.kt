@@ -1,6 +1,5 @@
 package com.kev.instantsystem.ui.home
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.layout.AnimatedPane
@@ -10,12 +9,14 @@ import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaf
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.PagingData
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.kev.instantsystem.domain.model.Article
-import kotlinx.coroutines.flow.Flow
+import com.kev.instantsystem.domain.model.Source
+import com.kev.instantsystem.ui.components.NewsDetailPane
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 
@@ -25,34 +26,30 @@ fun HomeRoute(
     onDetailVisibilityChanged: (Boolean) -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
+    val articles = viewModel.discoveryArticles.collectAsLazyPagingItems()
     HomeScreen(
         modifier = modifier,
+        articles = articles,
         onDetailVisibilityChanged = onDetailVisibilityChanged,
-        categories = viewModel.categories,
-        articlesMap = viewModel.articlesMap
     )
 }
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
-fun HomeScreen(
+private fun HomeScreen(
     modifier: Modifier = Modifier,
     onDetailVisibilityChanged: (Boolean) -> Unit,
-    categories: List<ArticleCategory>,
-    articlesMap: Map<ArticleCategory, Flow<PagingData<Article>>>
+    articles: LazyPagingItems<Article>
 ) {
     val navigator = rememberListDetailPaneScaffoldNavigator<Any>()
     val scope = rememberCoroutineScope()
 
     NavigableListDetailPaneScaffold(
-        modifier = modifier
-            .fillMaxSize()
-            .background(Color.Black),
+        modifier = modifier.fillMaxSize(),
         navigator = navigator,
         listPane = {
-            NewsListPane(
-                categories = categories,
-                articlesMap = articlesMap,
+            HomeListPane(
+                articles = articles,
                 onArticleClick = { article ->
                     scope.launch {
                         navigator.navigateTo(
@@ -60,7 +57,6 @@ fun HomeScreen(
                             contentKey = article
                         )
                     }
-
                 }
             )
         },
@@ -72,26 +68,35 @@ fun HomeScreen(
                     article = content,
                 )
             }
-        },
+        }
     )
 }
 
-@Preview(showBackground = true, name = "HomeScreen Preview")
+@Preview(showBackground = true, name = "DiscoveryScreen Preview")
 @Composable
-private fun PreviewHomeScreen() {
-    val dummyCategories = listOf(
-        ArticleCategory.Latest,
-        ArticleCategory.Trump,
-        ArticleCategory.Ukraine
-    )
-
-    val dummyArticlesFlow = flowOf(PagingData.empty<Article>())
-
-    val dummyArticlesMap = dummyCategories.associateWith { dummyArticlesFlow }
+private fun PreviewDiscoveryScreen() {
+    val fakeArticles = flowOf(
+        PagingData.from(
+            listOf(
+                Article(
+                    title = "Titre fictif",
+                    description = "Ceci est un article fictif.",
+                    content = "Contenu complet fictif...",
+                    url = "https://example.com/fake",
+                    publishedAt = "2025-07-24T12:00:00Z",
+                    source = Source(
+                        "fake-id",
+                        "Source Fictive"
+                    ),
+                    author = "Auteur Test",
+                    urlToImage = null
+                )
+            )
+        )
+    ).collectAsLazyPagingItems()
 
     HomeScreen(
+        articles = fakeArticles,
         onDetailVisibilityChanged = {},
-        categories = dummyCategories,
-        articlesMap = dummyArticlesMap
     )
 }

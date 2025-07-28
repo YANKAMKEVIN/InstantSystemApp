@@ -39,8 +39,8 @@ fun ScrollableTabRowComponent(
     tabs: List<String>,
     contentScreens: List<@Composable () -> Unit>,
     modifier: Modifier = Modifier,
-    containerColor: Color = Color.Black,
-    contentColor: Color = Color.Black,
+    containerColor: Color = MaterialTheme.colorScheme.background,
+    contentColor: Color = MaterialTheme.colorScheme.background,
     indicatorColor: Color = MaterialTheme.ISColors.Brand._300
 ) {
     var selectedTabIndex by remember { mutableIntStateOf(0) }

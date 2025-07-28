@@ -1,15 +1,16 @@
-package com.kev.instantsystem.ui.discovery
+package com.kev.instantsystem.ui.home
 
 import androidx.compose.runtime.Composable
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.kev.instantsystem.domain.model.Article
+import com.kev.instantsystem.ui.components.EmptyListPlaceholder
 import com.kev.instantsystem.ui.components.LoaderScreen
 import com.kev.instantsystem.ui.components.LoaderState
-import com.kev.instantsystem.ui.home.NewsListScreenPaging
+import com.kev.instantsystem.ui.components.NewsListScreenPaging
 
 @Composable
-fun DiscoveryListPane(
+fun HomeListPane(
     articles: LazyPagingItems<Article>,
     onArticleClick: (Article) -> Unit
 ) {
@@ -28,6 +29,12 @@ fun DiscoveryListPane(
         }
 
         else -> {
+            if (articles.itemCount == 0) {
+                EmptyListPlaceholder(
+                    buttonText = "Réessayer",
+                    onButtonClick = { articles.retry() }
+                )
+            }
             NewsListScreenPaging(articles = articles, onArticleClick = onArticleClick)
         }
     }
