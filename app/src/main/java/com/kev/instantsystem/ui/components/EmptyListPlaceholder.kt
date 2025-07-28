@@ -83,7 +83,7 @@ fun EmptyListPlaceholder(
 
 @Preview(showBackground = true)
 @Composable
-fun EmptyListPlaceholderPreview() {
+private fun EmptyListPlaceholderPreview() {
     EmptyListPlaceholder(
         title = "Aucune actualité",
         subtitle = "Essayez avec un autre mot-clé",

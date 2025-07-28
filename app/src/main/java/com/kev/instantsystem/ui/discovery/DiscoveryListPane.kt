@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.kev.instantsystem.domain.model.Article
+import com.kev.instantsystem.ui.components.EmptyListPlaceholder
 import com.kev.instantsystem.ui.components.LoaderScreen
 import com.kev.instantsystem.ui.components.LoaderState
 import com.kev.instantsystem.ui.home.NewsListScreenPaging
@@ -28,6 +29,12 @@ fun DiscoveryListPane(
         }
 
         else -> {
+            if (articles.itemCount == 0) {
+                EmptyListPlaceholder(
+                    buttonText = "Réessayer",
+                    onButtonClick = { articles.retry() }
+                )
+            }
             NewsListScreenPaging(articles = articles, onArticleClick = onArticleClick)
         }
     }

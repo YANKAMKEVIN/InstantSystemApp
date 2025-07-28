@@ -19,7 +19,7 @@ import com.kev.instantsystem.ui.navigation.BottomNavItem.Companion.allItems
 @Composable
 fun MainBottomBar(currentRoute: String?, onItemSelected: (BottomNavItem) -> Unit) {
 
-    NavigationBar(containerColor = Color.Black) {
+    NavigationBar(containerColor = MaterialTheme.colorScheme.background) {
 
         allItems.forEach { item ->
             val isSelected = currentRoute == item.route

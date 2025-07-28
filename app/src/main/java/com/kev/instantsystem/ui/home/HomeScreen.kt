@@ -1,6 +1,5 @@
 package com.kev.instantsystem.ui.home
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.layout.AnimatedPane
@@ -10,7 +9,6 @@ import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaf
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.PagingData
@@ -46,8 +44,7 @@ fun HomeScreen(
 
     NavigableListDetailPaneScaffold(
         modifier = modifier
-            .fillMaxSize()
-            .background(Color.Black),
+            .fillMaxSize(),
         navigator = navigator,
         listPane = {
             NewsListPane(
@@ -81,8 +78,8 @@ fun HomeScreen(
 private fun PreviewHomeScreen() {
     val dummyCategories = listOf(
         ArticleCategory.Latest,
-        ArticleCategory.Trump,
-        ArticleCategory.Ukraine
+        ArticleCategory.Science,
+        ArticleCategory.Sports
     )
 
     val dummyArticlesFlow = flowOf(PagingData.empty<Article>())

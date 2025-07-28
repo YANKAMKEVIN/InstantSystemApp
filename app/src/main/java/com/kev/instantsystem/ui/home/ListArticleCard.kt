@@ -50,7 +50,7 @@ fun ListArticleCard(
                     modifier = Modifier
                         .padding(end = 8.dp)
                         .size(48.dp)
-                        .background(Color.Black, shape = CircleShape)
+                        .background(MaterialTheme.colorScheme.background, shape = CircleShape)
                         .semantics { testTag = "ArticleImage" },
                     contentScale = ContentScale.Crop
                 )
@@ -59,7 +59,7 @@ fun ListArticleCard(
                     modifier = Modifier
                         .padding(end = 8.dp)
                         .size(48.dp)
-                        .background(Color.Black, shape = CircleShape),
+                        .background(MaterialTheme.colorScheme.background, shape = CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(

@@ -25,8 +25,9 @@ sealed class BottomNavItem(
         BottomNavItem(
             route = NavigationRoutes.HOME,
             label = "Headlines",
-            iconRes = R.drawable.headlines_logo
-        )
+            iconRes = R.drawable.headlines_logo,
+
+            )
 
     data object Search : BottomNavItem(
         route = NavigationRoutes.SEARCH,

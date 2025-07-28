@@ -17,28 +17,21 @@ class HomeViewModel @Inject constructor(
 
     val categories = listOf(
         ArticleCategory.Latest,
-        ArticleCategory.Trump,
-        ArticleCategory.Ukraine,
-        ArticleCategory.Commerce,
-        ArticleCategory.Africa,
-        ArticleCategory.Israel
+        ArticleCategory.Science,
+        ArticleCategory.Sports,
+        ArticleCategory.Technology,
+        ArticleCategory.Health,
+        ArticleCategory.Business
     )
 
     val articlesMap: Map<ArticleCategory, Flow<PagingData<Article>>> =
-        listOf(
-            ArticleCategory.Latest,
-            ArticleCategory.Trump,
-            ArticleCategory.Ukraine,
-            ArticleCategory.Commerce,
-            ArticleCategory.Africa,
-            ArticleCategory.Israel
-        ).associateWith { getArticles(it.query) }
+        categories.associateWith { getArticles(it.category) }
 
-    private fun getArticles(query: String?): Flow<PagingData<Article>> {
+    private fun getArticles(category: String?): Flow<PagingData<Article>> {
         return getTopHeadlinesUseCase(
             country = "us",
-            category = query,
-            query = query
+            category = category,
+            query = null
         ).cachedIn(viewModelScope)
     }
 

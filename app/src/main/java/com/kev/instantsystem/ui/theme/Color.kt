@@ -10,6 +10,7 @@ import androidx.compose.runtime.compositionLocalOf
 val Purple200 = Color(0xFFEEECF5)
 val Purple500 = Color(0xFF6200EE)
 val Purple700 = Color(0xFF3700B3)
+val black = Color(0xFF000000)
 
 class ISColors {
     val Brand = Brand()

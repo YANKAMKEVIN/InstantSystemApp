@@ -15,15 +15,17 @@ private val DarkColorScheme = darkColorScheme(
     onPrimary = Brand()._100,
     secondary = Neutral()._500,
     onSecondary = Brand()._100,
-    background = Neutral()._700,
+    background = black,
     surface = Neutral()._800,
     onSurface = Neutral()._000
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple500,
-    onPrimary = Purple700,
-    secondary = Purple200
+    primary = Brand()._500,
+    onPrimary = Brand()._100,
+    secondary = Neutral()._500,
+    background = black,
+    onBackground = black
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
@@ -40,7 +42,7 @@ private val LightColorScheme = lightColorScheme(
 fun InstantSystemTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {

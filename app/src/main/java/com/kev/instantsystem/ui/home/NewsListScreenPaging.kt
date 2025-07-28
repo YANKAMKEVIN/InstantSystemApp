@@ -18,7 +18,7 @@ fun NewsListScreenPaging(
     articles: LazyPagingItems<Article>,
     onArticleClick: (Article) -> Unit = {}
 ) {
-    LazyColumn(Modifier.background(Color.Black)) {
+    LazyColumn {
         items(articles.itemCount) { index ->
             val article = articles[index]
             article?.let {

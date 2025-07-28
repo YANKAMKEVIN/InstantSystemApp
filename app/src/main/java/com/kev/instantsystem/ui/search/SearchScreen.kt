@@ -24,10 +24,12 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.kev.instantsystem.domain.model.Article
+import com.kev.instantsystem.ui.components.EmptyListPlaceholder
 import com.kev.instantsystem.ui.components.LoaderScreen
 import com.kev.instantsystem.ui.components.LoaderState
 import com.kev.instantsystem.ui.home.NewsDetailPane
 import com.kev.instantsystem.ui.home.NewsListScreenPaging
+import com.kev.instantsystem.ui.placeholder.ScreenPlaceholder
 import kotlinx.coroutines.launch
 
 @Composable
@@ -72,13 +74,7 @@ fun SearchScreen(
 
                 // Show placeholder until the query is valid
                 if (query.length < 3) {
-                    Text(
-                        text = "Start typing to search...",
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(top = 32.dp),
-                        // style = MaterialTheme.typography.bodyLarge
-                    )
+                    ScreenPlaceholder("Type more than 3 characters to begin", "🔍")
                     return@Column
                 }
 
@@ -97,14 +93,17 @@ fun SearchScreen(
                     }
 
                     else -> {
-                        NewsListScreenPaging(articles = articles) { article ->
-                            scope.launch {
-                                navigator.navigateTo(
-                                    pane = ListDetailPaneScaffoldRole.Detail,
-                                    contentKey = article
-                                )
+                        if (articles.itemCount == 0) {
+                            EmptyListPlaceholder()
+                        } else
+                            NewsListScreenPaging(articles = articles) { article ->
+                                scope.launch {
+                                    navigator.navigateTo(
+                                        pane = ListDetailPaneScaffoldRole.Detail,
+                                        contentKey = article
+                                    )
+                                }
                             }
-                        }
                     }
                 }
             }

@@ -1,10 +1,10 @@
 package com.kev.instantsystem.ui.home
 
-sealed class ArticleCategory(val label: String, val query: String?) {
+sealed class ArticleCategory(val label: String, val category: String?) {
     data object Latest : ArticleCategory("Latest", null)
-    data object Trump : ArticleCategory("Trump", "trump")
-    data object Ukraine : ArticleCategory("Ukraine", "ukraine")
-    data object Commerce : ArticleCategory("Commerce", "trade")
-    data object Africa : ArticleCategory("Afrique", "africa")
-    data object Israel : ArticleCategory("Israël", "israel")
+    data object Science : ArticleCategory("Science", "science")
+    data object Sports : ArticleCategory("Sports", "sports")
+    data object Technology : ArticleCategory("Technology", "technology")
+    data object Health : ArticleCategory("Health", "health")
+    data object Business : ArticleCategory("Business", "business")
 }

@@ -111,22 +111,22 @@ private fun PreviewNewsListPane() {
 
     val fakeFlow = flowOf(PagingData.from(listOf(sampleArticle)))
     val mockMap = listOf(
-        ArticleCategory.Africa,
-        ArticleCategory.Israel,
+        ArticleCategory.Health,
+        ArticleCategory.Business,
         ArticleCategory.Latest,
-        ArticleCategory.Ukraine,
-        ArticleCategory.Trump,
-        ArticleCategory.Commerce
+        ArticleCategory.Sports,
+        ArticleCategory.Science,
+        ArticleCategory.Technology
     ).associateWith { fakeFlow }
 
     NewsListPane(
         categories = listOf(
-            ArticleCategory.Africa,
-            ArticleCategory.Israel,
+            ArticleCategory.Health,
+            ArticleCategory.Business,
             ArticleCategory.Latest,
-            ArticleCategory.Ukraine,
-            ArticleCategory.Trump,
-            ArticleCategory.Commerce
+            ArticleCategory.Sports,
+            ArticleCategory.Science,
+            ArticleCategory.Technology
         ),
         articlesMap = mockMap,
         onArticleClick = {}

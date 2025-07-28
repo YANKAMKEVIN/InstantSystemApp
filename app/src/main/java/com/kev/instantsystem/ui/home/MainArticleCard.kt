@@ -54,7 +54,7 @@ fun MainArticleCard(
                 .fillMaxSize()
                 .background(
                     brush = Brush.verticalGradient(
-                        colors = listOf(Color.Transparent, Color.Black),
+                        colors = listOf(Color.Transparent, MaterialTheme.colorScheme.background),
                         startY = 150f
                     )
                 )
