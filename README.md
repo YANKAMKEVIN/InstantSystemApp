@@ -74,7 +74,12 @@ This ensures:
 
 ---
 
-## screnshots
+## Screenshots
+
+<p align="center">
+  <img src="images/screenshot-home.png" alt="InstantSystem app screenshot" width="300" />
+</p>
+
 ![news_app_3](https://github.com/user-attachments/assets/d253f991-0646-4767-8328-eb390f6f42c3)
 ![news_app_2](https://github.com/user-attachments/assets/95229f9a-4169-41c8-902b-cbc168565a96)
 ![news_app_1](https://github.com/user-attachments/assets/a10122dd-4589-4974-a6c3-8b16fb66e5ac)
