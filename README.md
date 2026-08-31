@@ -74,11 +74,16 @@ This ensures:
 
 ---
 
-## screnshots
-![news_app_3](https://github.com/user-attachments/assets/d253f991-0646-4767-8328-eb390f6f42c3)
-![news_app_2](https://github.com/user-attachments/assets/95229f9a-4169-41c8-902b-cbc168565a96)
-![news_app_1](https://github.com/user-attachments/assets/a10122dd-4589-4974-a6c3-8b16fb66e5ac)
-![news_app_4](https://github.com/user-attachments/assets/b88c9828-2b86-45b4-99cf-980e1c6d4aba)
+## Screenshots
+
+<p align="center">
+  <img src="images/screenshot-home.png" alt="InstantSystem app screenshot" width="240" />
+</p>
+
+<img src="https://github.com/user-attachments/assets/d253f991-0646-4767-8328-eb390f6f42c3" alt="news_app_3" width="240" />
+<img src="https://github.com/user-attachments/assets/95229f9a-4169-41c8-902b-cbc168565a96" alt="news_app_2" width="240" />
+<img src="https://github.com/user-attachments/assets/a10122dd-4589-4974-a6c3-8b16fb66e5ac" alt="news_app_1" width="240" />
+<img src="https://github.com/user-attachments/assets/b88c9828-2b86-45b4-99cf-980e1c6d4aba" alt="news_app_4" width="240" />
 
 ## 💬 Final thoughts
 
