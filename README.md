@@ -13,6 +13,20 @@ Developed with Jetpack Compose and Kotlin using a Clean Architecture approach.
 
 ---
 
+## 🔑 Setup: NewsAPI key
+
+The app needs a free [NewsAPI.org](https://newsapi.org/register) API key. It is read at build time from
+`local.properties` (at the root of the project, never committed):
+
+```properties
+NEWS_API_KEY=your_api_key_here
+```
+
+Then rebuild the app. Without this key the app still compiles, but every screen shows
+"Clé API NewsAPI manquante…" instead of articles.
+
+---
+
 ## 🧠 Architecture
 
 The app uses **Clean MVVM Architecture** with the following layers:

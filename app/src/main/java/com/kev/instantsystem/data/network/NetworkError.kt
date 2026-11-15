@@ -38,4 +38,10 @@ interface NetworkError {
         override val code: Int
             get() = -2
     }
+
+    /** The app was built without NEWS_API_KEY: no request can succeed. */
+    class MissingApiKey(override val message: String) : NetworkError {
+        override val code: Int
+            get() = -3
+    }
 }

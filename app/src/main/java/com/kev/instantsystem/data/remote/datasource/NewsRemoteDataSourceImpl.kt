@@ -2,16 +2,30 @@ package com.kev.instantsystem.data.remote.datasource
 
 import com.kev.instantsystem.BuildConfig
 import com.kev.instantsystem.data.dto.NewsDto
+import com.kev.instantsystem.data.network.NetworkError
 import com.kev.instantsystem.data.network.NetworkResponse
 import com.kev.instantsystem.data.network.NetworkUtil
 import com.kev.instantsystem.data.remote.NewsApiService
 import javax.inject.Inject
 
-class NewsRemoteDataSourceImpl @Inject constructor(
-    private val apiService: NewsApiService
+class NewsRemoteDataSourceImpl(
+    private val apiService: NewsApiService,
+    private val apiKey: String
 ) : NewsRemoteDataSource {
 
-    private val apiKey = BuildConfig.NEWS_API_KEY
+    @Inject
+    constructor(apiService: NewsApiService) : this(apiService, BuildConfig.NEWS_API_KEY)
+
+    /**
+     * Without a key NewsAPI answers 401 to every call and the user only sees "HTTP 401".
+     * Fail early with an explicit message instead (the build falls back to [MISSING_API_KEY]).
+     */
+    private fun <T : Any> missingApiKey(): NetworkResponse<T>? =
+        if (apiKey.isBlank() || apiKey == MISSING_API_KEY) {
+            NetworkResponse.Failure(NetworkError.MissingApiKey(MISSING_API_KEY_MESSAGE))
+        } else {
+            null
+        }
 
     /**
      * Calls the News API to fetch top headlines.
@@ -24,6 +38,7 @@ class NewsRemoteDataSourceImpl @Inject constructor(
         page: Int,
         pageSize: Int
     ): NetworkResponse<NewsDto> {
+        missingApiKey<NewsDto>()?.let { return it }
         return NetworkUtil.executeApiCall {
             apiService.getTopHeadlines(
                 country = country,
@@ -49,6 +64,7 @@ class NewsRemoteDataSourceImpl @Inject constructor(
         page: Int,
         pageSize: Int
     ): NetworkResponse<NewsDto> {
+        missingApiKey<NewsDto>()?.let { return it }
         return NetworkUtil.executeApiCall {
             apiService.getEverything(
                 apiKey = apiKey,
@@ -61,5 +77,14 @@ class NewsRemoteDataSourceImpl @Inject constructor(
                 pageSize = pageSize
             )
         }
+    }
+
+    companion object {
+        /** Value of BuildConfig.NEWS_API_KEY when local.properties has no NEWS_API_KEY (see app/build.gradle.kts). */
+        const val MISSING_API_KEY = "MISSING_API_KEY"
+
+        const val MISSING_API_KEY_MESSAGE =
+            "Clé API NewsAPI manquante : ajoutez NEWS_API_KEY=<votre clé> dans local.properties, " +
+                "puis recompilez l’application (voir le README)."
     }
 }
