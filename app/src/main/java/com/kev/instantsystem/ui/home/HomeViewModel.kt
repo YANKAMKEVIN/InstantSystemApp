@@ -7,8 +7,10 @@ import androidx.paging.cachedIn
 import com.kev.instantsystem.domain.model.Article
 import com.kev.instantsystem.domain.usecase.SearchEverythingUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flatMapLatest
 import javax.inject.Inject
 
 /**
@@ -28,11 +30,16 @@ class HomeViewModel @Inject constructor(
     }
 
     /**
-     * Public stream of articles based on a fixed or dynamic search.
-     * For now, we provide a default query (e.g., "technology").
+     * Public stream of articles for a default query (e.g., "technology").
+     * Rebuilt for every language change: the previous search is cancelled and a new one starts.
      */
-    val discoveryArticles: Flow<PagingData<Article>> = searchEverythingUseCase(
-        query = "technology",
-        language = language.value
-    ).cachedIn(viewModelScope)
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val discoveryArticles: Flow<PagingData<Article>> = _language
+        .flatMapLatest { lang ->
+            searchEverythingUseCase(
+                query = "technology",
+                language = lang
+            )
+        }
+        .cachedIn(viewModelScope)
 }
