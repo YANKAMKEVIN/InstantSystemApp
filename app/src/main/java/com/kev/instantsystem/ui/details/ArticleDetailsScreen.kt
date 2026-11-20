@@ -1,16 +1,11 @@
 package com.kev.instantsystem.ui.details
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
 import com.kev.instantsystem.domain.model.Article
 import com.kev.instantsystem.domain.model.Source
@@ -20,37 +15,41 @@ fun ArticleDetailsScreen(
     article: Article,
     isBookmarked: Boolean = false,
     onToggleBookmark: () -> Unit = {},
+    onShare: () -> Unit = {},
+    onBack: (() -> Unit)? = null,
     onReadMoreClick: () -> Unit = {}
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-    ) {
-        ArticleTitle(article.title)
+    Column(modifier = Modifier.fillMaxSize()) {
+        ArticleTopBar(
+            sourceName = article.source.name,
+            isBookmarked = isBookmarked,
+            onToggleBookmark = onToggleBookmark,
+            onShare = onShare,
+            onOpenInBrowser = onReadMoreClick,
+            onBack = onBack
+        )
 
-        article.urlToImage?.let { imageUrl ->
-            ArticleImage(imageUrl)
-        }
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+        ) {
+            ArticleTitle(article.title)
 
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Box(modifier = Modifier.weight(1f)) {
-                ArticleMeta(
-                    sourceName = article.source.name,
-                    publishedAt = article.publishedAt
-                )
+            article.urlToImage?.let { imageUrl ->
+                ArticleImage(imageUrl)
             }
-            BookmarkButton(
-                isBookmarked = isBookmarked,
-                onClick = onToggleBookmark,
-                modifier = Modifier.padding(end = 4.dp)
+
+            ArticleMeta(
+                sourceName = article.source.name,
+                publishedAt = article.publishedAt
             )
+
+            ArticleTextSection(text = article.description)
+            ArticleTextSection(text = article.content)
+
+            ReadMoreButton(onReadMoreClick)
         }
-
-        ArticleTextSection(text = article.description)
-        ArticleTextSection(text = article.content)
-
-        ReadMoreButton(onReadMoreClick)
     }
 }
 

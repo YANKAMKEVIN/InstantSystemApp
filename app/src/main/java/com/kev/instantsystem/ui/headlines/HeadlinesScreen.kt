@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.layout.AnimatedPane
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
+import androidx.compose.material3.adaptive.layout.PaneAdaptedValue
 import androidx.compose.material3.adaptive.navigation.NavigableListDetailPaneScaffold
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
@@ -70,9 +71,14 @@ fun HeadlinesScreen(
         detailPane = {
             val content = navigator.currentDestination?.contentKey as Article?
             onDetailVisibilityChanged(content != null)
+            val isSinglePane =
+                navigator.scaffoldValue[ListDetailPaneScaffoldRole.List] == PaneAdaptedValue.Hidden
             AnimatedPane {
                 NewsDetailPane(
                     article = content,
+                    onBack = if (isSinglePane) {
+                        { scope.launch { navigator.navigateBack() } }
+                    } else null
                 )
             }
         },
