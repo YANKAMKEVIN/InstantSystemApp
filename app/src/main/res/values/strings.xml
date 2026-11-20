@@ -8,4 +8,15 @@
     <string name="bookmark_remove">Remove from saved articles</string>
     <string name="bookmark_added">Article saved</string>
     <string name="bookmark_removed">Article removed from saved articles</string>
+
+    <!-- Menu -->
+    <string name="menu_title">Menu</string>
+    <string name="menu_share_app">Share the app</string>
+    <string name="menu_share_text">Read the news with Instant System: %1$s</string>
+    <string name="menu_about">About this app</string>
+    <string name="about_version">Version %1$s</string>
+    <string name="about_news_credit">News provided by NewsAPI.org.</string>
+    <string name="about_news_api_link">Visit NewsAPI.org</string>
+    <string name="about_source_code">View the source code</string>
+    <string name="about_close">Close</string>
 </resources>

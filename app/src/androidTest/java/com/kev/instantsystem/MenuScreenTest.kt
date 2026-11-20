@@ -27,12 +27,8 @@ class MenuScreenTest {
     @Test
     fun displaysAllMenuOptions() {
         val expectedOptions = listOf(
-            "Your account",
-            "Settings",
-            "About this app",
-            "Rate us",
             "Share the app",
-            "Send feedback"
+            "About this app"
         )
 
         composeTestRule.setContent {
