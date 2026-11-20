@@ -127,7 +127,10 @@ fun SearchScreen(
                             keyboardController?.hide()
                         }
                     )
-                    ScreenPlaceholder(stringResource(R.string.search_min_chars), "🔍")
+                    ScreenPlaceholder(
+                        title = stringResource(R.string.search_min_chars),
+                        iconRes = R.drawable.ic_state_search
+                    )
                     return@Column
                 }
 

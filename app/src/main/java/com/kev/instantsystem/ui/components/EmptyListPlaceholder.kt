@@ -27,8 +27,8 @@ fun EmptyListPlaceholder(
     modifier: Modifier = Modifier,
     title: String = stringResource(R.string.empty_title),
     subtitle: String = stringResource(R.string.empty_subtitle),
-    emoji: String? = "📰",
-    imageResId: Int? = null,
+    emoji: String? = null,
+    imageResId: Int? = R.drawable.ic_state_empty_news,
     buttonText: String? = null,
     onButtonClick: (() -> Unit)? = null,
 ) {
@@ -39,21 +39,21 @@ fun EmptyListPlaceholder(
         contentAlignment = Alignment.Center
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            imageResId?.let {
-                Image(
-                    painter = painterResource(id = it),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(120.dp)
-                        .padding(bottom = 16.dp)
-                        .testTag("EmptyListImage")
-                )
-            } ?: emoji?.let {
+            if (emoji != null) {
                 Text(
-                    text = it,
+                    text = emoji,
                     style = MaterialTheme.typography.displayMedium,
                     fontSize = 48.sp,
                     modifier = Modifier.testTag("EmptyListEmoji")
+                )
+            } else if (imageResId != null) {
+                Image(
+                    painter = painterResource(id = imageResId),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(120.dp)
+                        .padding(bottom = 8.dp)
+                        .testTag("EmptyListImage")
                 )
             }
 
@@ -89,7 +89,6 @@ private fun EmptyListPlaceholderPreview() {
     EmptyListPlaceholder(
         title = "Aucune actualité",
         subtitle = "Essayez avec un autre mot-clé",
-        emoji = "📰",
         buttonText = "Réessayer",
         onButtonClick = {}
     )

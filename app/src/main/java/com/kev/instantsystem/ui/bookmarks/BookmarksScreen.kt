@@ -55,7 +55,7 @@ fun BookmarksScreen(
                 EmptyListPlaceholder(
                     title = stringResource(R.string.bookmarks_empty_title),
                     subtitle = stringResource(R.string.bookmarks_empty_subtitle),
-                    emoji = "🔖"
+                    imageResId = R.drawable.ic_state_bookmarks
                 )
             } else {
                 LazyColumn(modifier = Modifier.fillMaxSize()) {

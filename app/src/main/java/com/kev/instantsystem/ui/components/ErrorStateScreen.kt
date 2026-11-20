@@ -39,11 +39,11 @@ fun ErrorStateScreen(
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Image(
-                painter = painterResource(id = androidx.biometric.R.drawable.fingerprint_dialog_error),
+                painter = painterResource(id = R.drawable.ic_state_offline),
                 contentDescription = stringResource(R.string.error_image_description),
                 modifier = Modifier
-                    .size(100.dp)
-                    .padding(bottom = 24.dp)
+                    .size(120.dp)
+                    .padding(bottom = 16.dp)
                     .testTag("ErrorImage")
             )
 
