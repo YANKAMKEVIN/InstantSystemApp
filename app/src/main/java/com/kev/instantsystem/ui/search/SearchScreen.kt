@@ -24,6 +24,7 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.kev.instantsystem.domain.model.Article
+import com.kev.instantsystem.ui.bookmarks.rememberBookmarkToggle
 import com.kev.instantsystem.ui.components.EmptyListPlaceholder
 import com.kev.instantsystem.ui.components.LoaderScreen
 import com.kev.instantsystem.ui.components.LoaderState
@@ -43,7 +44,8 @@ fun SearchRoute(
         query = query,
         onDetailVisibilityChanged = onDetailVisibilityChanged,
         onQueryChange = viewModel::onQueryChanged,
-        articles = articles
+        articles = articles,
+        onArticleLongClick = rememberBookmarkToggle()
     )
 }
 
@@ -55,6 +57,7 @@ fun SearchScreen(
     onDetailVisibilityChanged: (Boolean) -> Unit,
     onQueryChange: (String) -> Unit,
     articles: LazyPagingItems<Article>,
+    onArticleLongClick: ((Article) -> Unit)? = null,
 ) {
     val navigator = rememberListDetailPaneScaffoldNavigator<Any>()
     val scope = rememberCoroutineScope()
@@ -99,14 +102,18 @@ fun SearchScreen(
                         if (articles.itemCount == 0) {
                             EmptyListPlaceholder()
                         } else
-                            NewsListScreenPaging(articles = articles) { article ->
-                                scope.launch {
-                                    navigator.navigateTo(
-                                        pane = ListDetailPaneScaffoldRole.Detail,
-                                        contentKey = article
-                                    )
+                            NewsListScreenPaging(
+                                articles = articles,
+                                onArticleLongClick = onArticleLongClick,
+                                onArticleClick = { article ->
+                                    scope.launch {
+                                        navigator.navigateTo(
+                                            pane = ListDetailPaneScaffoldRole.Detail,
+                                            contentKey = article
+                                        )
+                                    }
                                 }
-                            }
+                            )
                     }
                 }
             }

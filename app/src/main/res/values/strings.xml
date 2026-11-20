@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Instant System</string>
+
+    <!-- Bookmarks -->
+    <string name="bookmarks_empty_title">No saved articles</string>
+    <string name="bookmarks_empty_subtitle">Tap the bookmark on an article, or long-press it in a list, to read it later.</string>
+    <string name="bookmark_add">Save article</string>
+    <string name="bookmark_remove">Remove from saved articles</string>
+    <string name="bookmark_added">Article saved</string>
+    <string name="bookmark_removed">Article removed from saved articles</string>
 </resources>

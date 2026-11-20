@@ -13,13 +13,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.kev.instantsystem.ui.bookmarks.BookmarksRoute
 import com.kev.instantsystem.ui.home.HomeRoute
 import com.kev.instantsystem.ui.headlines.HeadlinesRoute
 import com.kev.instantsystem.ui.menu.MenuScreen
 import com.kev.instantsystem.ui.navigation.BottomNavItem
 import com.kev.instantsystem.ui.navigation.MainBottomBar
 import com.kev.instantsystem.ui.navigation.MainTopBar
-import com.kev.instantsystem.ui.placeholder.ScreenPlaceholder
 import com.kev.instantsystem.ui.search.SearchRoute
 
 @Composable
@@ -92,15 +92,12 @@ private fun ISNavHost(
             )
         }
         composable(BottomNavItem.Bookmarks.route) {
-            BookmarksScreen()
+            BookmarksRoute(
+                onDetailVisibilityChanged = onDetailVisibilityChanged
+            )
         }
         composable(BottomNavItem.Menu.route) {
             MenuScreen()
         }
     }
-}
-
-@Composable
-private fun BookmarksScreen() {
-    ScreenPlaceholder(title = "Bookmarks", emoji = "🔖")
 }

@@ -1,0 +1,9 @@
+<resources>
+    <!-- Bookmarks -->
+    <string name="bookmarks_empty_title">Aucun article enregistré</string>
+    <string name="bookmarks_empty_subtitle">Touchez le signet d’un article, ou appuyez longuement dessus dans une liste, pour le lire plus tard.</string>
+    <string name="bookmark_add">Enregistrer l’article</string>
+    <string name="bookmark_remove">Retirer des articles enregistrés</string>
+    <string name="bookmark_added">Article enregistré</string>
+    <string name="bookmark_removed">Article retiré des articles enregistrés</string>
+</resources>

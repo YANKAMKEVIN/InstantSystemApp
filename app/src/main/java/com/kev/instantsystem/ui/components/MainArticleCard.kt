@@ -1,7 +1,8 @@
 package com.kev.instantsystem.ui.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -26,10 +27,12 @@ import coil.compose.AsyncImage
 import com.kev.instantsystem.domain.model.Article
 import com.kev.instantsystem.domain.model.Source
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MainArticleCard(
     article: Article,
     modifier: Modifier = Modifier,
+    onLongClick: (() -> Unit)? = null,
     onClick: () -> Unit
 ) {
     val isLive = article.title.contains(Regex("\\bLIVE\\b", RegexOption.IGNORE_CASE))
@@ -38,7 +41,7 @@ fun MainArticleCard(
         modifier = modifier
             .fillMaxWidth()
             .height(300.dp)
-            .clickable { onClick() }
+            .combinedClickable(onClick = onClick, onLongClick = onLongClick)
     ) {
         article.urlToImage?.let { imageUrl ->
             AsyncImage(

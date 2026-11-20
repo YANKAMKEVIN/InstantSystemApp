@@ -12,7 +12,8 @@ import com.kev.instantsystem.ui.components.NewsListScreenPaging
 @Composable
 fun HomeListPane(
     articles: LazyPagingItems<Article>,
-    onArticleClick: (Article) -> Unit
+    onArticleClick: (Article) -> Unit,
+    onArticleLongClick: ((Article) -> Unit)? = null
 ) {
     when (articles.loadState.refresh) {
         is LoadState.Loading -> {
@@ -35,7 +36,11 @@ fun HomeListPane(
                     onButtonClick = { articles.retry() }
                 )
             }
-            NewsListScreenPaging(articles = articles, onArticleClick = onArticleClick)
+            NewsListScreenPaging(
+                articles = articles,
+                onArticleClick = onArticleClick,
+                onArticleLongClick = onArticleLongClick
+            )
         }
     }
 }

@@ -22,13 +22,19 @@ import com.kev.instantsystem.domain.model.Article
 @Composable
 fun NewsListScreenPaging(
     articles: LazyPagingItems<Article>,
-    onArticleClick: (Article) -> Unit = {}
+    onArticleClick: (Article) -> Unit = {},
+    onArticleLongClick: ((Article) -> Unit)? = null
 ) {
     LazyColumn {
         items(articles.itemCount) { index ->
             val article = articles[index]
             article?.let {
-                ArticleItem(article = it, index = index, onClick = onArticleClick)
+                ArticleItem(
+                    article = it,
+                    index = index,
+                    onClick = onArticleClick,
+                    onLongClick = onArticleLongClick
+                )
             }
         }
 
@@ -80,11 +86,17 @@ internal fun AppendErrorFooter(onRetry: () -> Unit) {
 }
 
 @Composable
-private fun ArticleItem(article: Article, index: Int, onClick: (Article) -> Unit) {
+private fun ArticleItem(
+    article: Article,
+    index: Int,
+    onClick: (Article) -> Unit,
+    onLongClick: ((Article) -> Unit)?
+) {
+    val longClick = onLongClick?.let { { it(article) } }
     if (index == 0) {
-        MainArticleCard(article = article, onClick = { onClick(article) })
+        MainArticleCard(article = article, onLongClick = longClick, onClick = { onClick(article) })
     } else {
-        ListArticleCard(article = article, onClick = { onClick(article) })
+        ListArticleCard(article = article, onClick = { onClick(article) }, onLongClick = longClick)
     }
 }
 

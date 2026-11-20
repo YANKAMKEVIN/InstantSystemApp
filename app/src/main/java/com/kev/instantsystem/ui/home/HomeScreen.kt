@@ -18,6 +18,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.kev.instantsystem.domain.model.Article
 import com.kev.instantsystem.domain.model.Source
+import com.kev.instantsystem.ui.bookmarks.rememberBookmarkToggle
 import com.kev.instantsystem.ui.components.NewsDetailPane
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
@@ -41,6 +42,7 @@ fun HomeRoute(
         modifier = modifier,
         articles = articles,
         onDetailVisibilityChanged = onDetailVisibilityChanged,
+        onArticleLongClick = rememberBookmarkToggle(),
     )
 }
 
@@ -49,7 +51,8 @@ fun HomeRoute(
 private fun HomeScreen(
     modifier: Modifier = Modifier,
     onDetailVisibilityChanged: (Boolean) -> Unit,
-    articles: LazyPagingItems<Article>
+    articles: LazyPagingItems<Article>,
+    onArticleLongClick: ((Article) -> Unit)? = null
 ) {
     val navigator = rememberListDetailPaneScaffoldNavigator<Any>()
     val scope = rememberCoroutineScope()
@@ -60,6 +63,7 @@ private fun HomeScreen(
         listPane = {
             HomeListPane(
                 articles = articles,
+                onArticleLongClick = onArticleLongClick,
                 onArticleClick = { article ->
                     scope.launch {
                         navigator.navigateTo(

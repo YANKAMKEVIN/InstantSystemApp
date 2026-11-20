@@ -16,7 +16,8 @@ import kotlinx.coroutines.flow.flowOf
 fun NewsListPane(
     categories: List<ArticleCategory>,
     articlesMap: Map<ArticleCategory, Flow<PagingData<Article>>>,
-    onArticleClick: (Article) -> Unit
+    onArticleClick: (Article) -> Unit,
+    onArticleLongClick: ((Article) -> Unit)? = null
 ) {
     ScrollableTabRowComponent(
         tabs = categories.map { it.label },
@@ -24,7 +25,8 @@ fun NewsListPane(
             {
                 NewsCategoryContent(
                     articlesFlow = articlesMap[category],
-                    onArticleClick = onArticleClick
+                    onArticleClick = onArticleClick,
+                    onArticleLongClick = onArticleLongClick
                 )
             }
         }
@@ -34,7 +36,8 @@ fun NewsListPane(
 @Composable
 private fun NewsCategoryContent(
     articlesFlow: Flow<PagingData<Article>>?,
-    onArticleClick: (Article) -> Unit
+    onArticleClick: (Article) -> Unit,
+    onArticleLongClick: ((Article) -> Unit)? = null
 ) {
     if (articlesFlow == null) {
         Text("Aucun article pour cette catégorie")
@@ -62,7 +65,8 @@ private fun NewsCategoryContent(
                 } else {
                     NewsListScreenPaging(
                         articles = articles,
-                        onArticleClick = onArticleClick
+                        onArticleClick = onArticleClick,
+                        onArticleLongClick = onArticleLongClick
                     )
                 }
             }
