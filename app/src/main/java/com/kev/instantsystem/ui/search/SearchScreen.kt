@@ -1,14 +1,16 @@
 package com.kev.instantsystem.ui.search
 
-import androidx.compose.ui.res.stringResource
-import com.kev.instantsystem.R
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
@@ -18,13 +20,21 @@ import androidx.compose.material3.adaptive.layout.PaneAdaptedValue
 import androidx.compose.material3.adaptive.navigation.NavigableListDetailPaneScaffold
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.kev.instantsystem.R
 import com.kev.instantsystem.domain.model.Article
 import com.kev.instantsystem.ui.bookmarks.rememberBookmarkToggle
 import com.kev.instantsystem.ui.components.EmptyListPlaceholder
@@ -39,11 +49,15 @@ fun SearchRoute(
     viewModel: SearchViewModel = hiltViewModel()
 ) {
     val query = viewModel.query.collectAsState().value
+    val recentSearches = viewModel.recentSearches.collectAsState().value
     val articles = viewModel.searchResults.collectAsLazyPagingItems()
     SearchScreen(
         query = query,
         onDetailVisibilityChanged = onDetailVisibilityChanged,
         onQueryChange = viewModel::onQueryChanged,
+        recentSearches = recentSearches,
+        onSearch = viewModel::onSearchSubmitted,
+        onSuggestionSelected = viewModel::onSuggestionSelected,
         articles = articles,
         onArticleLongClick = rememberBookmarkToggle()
     )
@@ -57,10 +71,20 @@ fun SearchScreen(
     onDetailVisibilityChanged: (Boolean) -> Unit,
     onQueryChange: (String) -> Unit,
     articles: LazyPagingItems<Article>,
+    recentSearches: List<String> = emptyList(),
+    onSearch: () -> Unit = {},
+    onSuggestionSelected: (String) -> Unit = onQueryChange,
     onArticleLongClick: ((Article) -> Unit)? = null,
 ) {
     val navigator = rememberListDetailPaneScaffoldNavigator<Any>()
     val scope = rememberCoroutineScope()
+    val focusRequester = remember { FocusRequester() }
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    // Ready to type when the tab opens on an empty search.
+    LaunchedEffect(Unit) {
+        if (query.isEmpty()) focusRequester.requestFocus()
+    }
 
     NavigableListDetailPaneScaffold(
         modifier = modifier.fillMaxSize(),
@@ -72,14 +96,37 @@ fun SearchScreen(
                     onValueChange = { onQueryChange(it) },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp),
+                        .padding(16.dp)
+                        .focusRequester(focusRequester),
                     label = { Text(stringResource(R.string.search_hint)) },
                     singleLine = true,
-                    leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) }
+                    leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
+                    trailingIcon = {
+                        if (query.isNotEmpty()) {
+                            IconButton(onClick = { onQueryChange("") }) {
+                                Icon(
+                                    imageVector = Icons.Default.Close,
+                                    contentDescription = stringResource(R.string.search_clear)
+                                )
+                            }
+                        }
+                    },
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                    keyboardActions = KeyboardActions(onSearch = {
+                        onSearch()
+                        keyboardController?.hide()
+                    })
                 )
 
-                // Show placeholder until the query is valid
-                if (query.length < 3) {
+                // Suggestions and hint until the query is long enough to be searched
+                if (query.trim().length < MIN_QUERY_LENGTH) {
+                    SearchSuggestions(
+                        recentSearches = recentSearches,
+                        onSuggestionSelected = {
+                            onSuggestionSelected(it)
+                            keyboardController?.hide()
+                        }
+                    )
                     ScreenPlaceholder(stringResource(R.string.search_min_chars), "🔍")
                     return@Column
                 }

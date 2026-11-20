@@ -58,4 +58,16 @@
     <string name="detail_image_description">Illustration de l’article</string>
     <string name="detail_read_more">Lire l’article complet</string>
     <string name="loading">Chargement des articles…</string>
+
+    <!-- Search suggestions -->
+    <string name="search_clear">Effacer la recherche</string>
+    <string name="search_topics_title">Sujets</string>
+    <string name="search_recent_title">Recherches récentes</string>
+    <string-array name="search_topics">
+        <item>IA</item>
+        <item>Climat</item>
+        <item>Sport</item>
+        <item>Économie</item>
+        <item>Espace</item>
+    </string-array>
 </resources>
