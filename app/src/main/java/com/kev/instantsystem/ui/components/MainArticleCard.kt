@@ -85,6 +85,8 @@ fun MainArticleCard(
                 Spacer(modifier = Modifier.height(8.dp))
             }
 
+            ArticleByline(article = article, modifier = Modifier.padding(bottom = 4.dp))
+
             Text(
                 text = article.title,
                 style = MaterialTheme.typography.titleLarge,

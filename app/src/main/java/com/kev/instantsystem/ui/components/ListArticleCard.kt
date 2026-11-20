@@ -74,13 +74,16 @@ fun ListArticleCard(
                 }
             }
 
-            Text(
-                text = article.title,
-                color = Color.White,
-                style = MaterialTheme.typography.bodyLarge,
-                maxLines = 3,
-                overflow = TextOverflow.Ellipsis
-            )
+            Column {
+                Text(
+                    text = article.title,
+                    color = Color.White,
+                    style = MaterialTheme.typography.bodyLarge,
+                    maxLines = 3,
+                    overflow = TextOverflow.Ellipsis
+                )
+                ArticleByline(article = article, modifier = Modifier.padding(top = 4.dp))
+            }
         }
 
         Spacer(modifier = Modifier.height(12.dp))
