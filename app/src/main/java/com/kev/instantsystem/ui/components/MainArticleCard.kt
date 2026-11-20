@@ -1,7 +1,10 @@
 package com.kev.instantsystem.ui.components
 
+import androidx.compose.ui.res.stringResource
+import com.kev.instantsystem.R
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -18,18 +21,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.kev.instantsystem.domain.model.Article
 import com.kev.instantsystem.domain.model.Source
+import com.kev.instantsystem.ui.theme.ISColors
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MainArticleCard(
     article: Article,
     modifier: Modifier = Modifier,
+    onLongClick: (() -> Unit)? = null,
     onClick: () -> Unit
 ) {
     val isLive = article.title.contains(Regex("\\bLIVE\\b", RegexOption.IGNORE_CASE))
@@ -38,14 +46,28 @@ fun MainArticleCard(
         modifier = modifier
             .fillMaxWidth()
             .height(300.dp)
-            .clickable { onClick() }
+            .combinedClickable(onClick = onClick, onLongClick = onLongClick)
     ) {
-        article.urlToImage?.let { imageUrl ->
+        val imageUrl = article.urlToImage
+        if (imageUrl != null) {
             AsyncImage(
-                model = imageUrl,
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(imageUrl)
+                    .crossfade(true)
+                    .build(),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.surfaceVariant)
+            )
+        } else {
+            // No image: a brand gradient instead of a plain black block.
+            val brand = MaterialTheme.ISColors.Brand
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Brush.linearGradient(listOf(brand._800, brand._500)))
             )
         }
 
@@ -73,7 +95,7 @@ fun MainArticleCard(
                         .padding(horizontal = 8.dp, vertical = 4.dp)
                 ) {
                     Text(
-                        text = "LIVE",
+                        text = stringResource(R.string.live_badge),
                         color = Color.White,
                         style = MaterialTheme.typography.labelSmall,
                         fontWeight = FontWeight.Bold,
@@ -81,6 +103,8 @@ fun MainArticleCard(
                 }
                 Spacer(modifier = Modifier.height(8.dp))
             }
+
+            ArticleByline(article = article, modifier = Modifier.padding(bottom = 4.dp))
 
             Text(
                 text = article.title,

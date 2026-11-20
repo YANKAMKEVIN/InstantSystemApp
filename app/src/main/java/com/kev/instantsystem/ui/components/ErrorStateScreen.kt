@@ -1,5 +1,7 @@
 package com.kev.instantsystem.ui.components
 
+import androidx.compose.ui.res.stringResource
+import com.kev.instantsystem.R
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,9 +26,9 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun ErrorStateScreen(
     modifier: Modifier = Modifier,
-    title: String = "Une erreur s’est produite",
-    message: String = "Vérifiez votre connexion ou réessayez plus tard.",
-    buttonText: String = "Réessayer",
+    title: String = stringResource(R.string.error_title),
+    message: String = stringResource(R.string.error_message),
+    buttonText: String = stringResource(R.string.retry),
     onRetry: () -> Unit,
 ) {
     Box(
@@ -37,11 +39,11 @@ fun ErrorStateScreen(
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Image(
-                painter = painterResource(id = androidx.biometric.R.drawable.fingerprint_dialog_error),
-                contentDescription = "Erreur",
+                painter = painterResource(id = R.drawable.ic_state_offline),
+                contentDescription = stringResource(R.string.error_image_description),
                 modifier = Modifier
-                    .size(100.dp)
-                    .padding(bottom = 24.dp)
+                    .size(120.dp)
+                    .padding(bottom = 16.dp)
                     .testTag("ErrorImage")
             )
 

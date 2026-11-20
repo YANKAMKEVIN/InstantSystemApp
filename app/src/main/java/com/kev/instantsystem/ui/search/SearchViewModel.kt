@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,7 +33,7 @@ class SearchViewModel @Inject constructor(
     // Expose paged search results based on the query
 
     val searchResults: Flow<PagingData<Article>> = _query
-        .filter { it.length >= 3 && it.isNotBlank() } // Avoid calling too early
+        .filter { it.trim().length >= MIN_QUERY_LENGTH } // Avoid calling too early
         .debounce(400)
         .distinctUntilChanged()
         .flatMapLatest { query ->
@@ -40,7 +41,34 @@ class SearchViewModel @Inject constructor(
         }
         .cachedIn(viewModelScope)
 
+    // Searches validated during this session (keyboard search action or topic chip), newest first
+    private val _recentSearches = MutableStateFlow<List<String>>(emptyList())
+    val recentSearches = _recentSearches.asStateFlow()
+
     fun onQueryChanged(newQuery: String) {
         _query.value = newQuery
     }
+
+    /** The user validated the current query with the keyboard search action. */
+    fun onSearchSubmitted() {
+        _recentSearches.update { addRecentSearch(it, _query.value) }
+    }
+
+    /** The user tapped a topic or a recent search: it becomes the query. */
+    fun onSuggestionSelected(suggestion: String) {
+        _query.value = suggestion
+        _recentSearches.update { addRecentSearch(it, suggestion) }
+    }
 }
+
+/**
+ * Puts [query] at the top of [recent] (without duplicates, ignoring case) and keeps the
+ * [max] latest ones. Queries too short to be searched are ignored.
+ */
+fun addRecentSearch(recent: List<String>, query: String, max: Int = 5): List<String> {
+    val cleaned = query.trim()
+    if (cleaned.length < MIN_QUERY_LENGTH) return recent
+    return (listOf(cleaned) + recent.filterNot { it.equals(cleaned, ignoreCase = true) }).take(max)
+}
+
+const val MIN_QUERY_LENGTH = 3

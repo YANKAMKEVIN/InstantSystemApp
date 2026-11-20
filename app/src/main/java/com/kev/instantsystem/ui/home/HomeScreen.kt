@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.layout.AnimatedPane
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
+import androidx.compose.material3.adaptive.layout.PaneAdaptedValue
 import androidx.compose.material3.adaptive.navigation.NavigableListDetailPaneScaffold
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
@@ -18,6 +19,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.kev.instantsystem.domain.model.Article
 import com.kev.instantsystem.domain.model.Source
+import com.kev.instantsystem.ui.bookmarks.rememberBookmarkToggle
 import com.kev.instantsystem.ui.components.NewsDetailPane
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
@@ -41,6 +43,7 @@ fun HomeRoute(
         modifier = modifier,
         articles = articles,
         onDetailVisibilityChanged = onDetailVisibilityChanged,
+        onArticleLongClick = rememberBookmarkToggle(),
     )
 }
 
@@ -49,7 +52,8 @@ fun HomeRoute(
 private fun HomeScreen(
     modifier: Modifier = Modifier,
     onDetailVisibilityChanged: (Boolean) -> Unit,
-    articles: LazyPagingItems<Article>
+    articles: LazyPagingItems<Article>,
+    onArticleLongClick: ((Article) -> Unit)? = null
 ) {
     val navigator = rememberListDetailPaneScaffoldNavigator<Any>()
     val scope = rememberCoroutineScope()
@@ -60,6 +64,7 @@ private fun HomeScreen(
         listPane = {
             HomeListPane(
                 articles = articles,
+                onArticleLongClick = onArticleLongClick,
                 onArticleClick = { article ->
                     scope.launch {
                         navigator.navigateTo(
@@ -73,9 +78,14 @@ private fun HomeScreen(
         detailPane = {
             val content = navigator.currentDestination?.contentKey as Article?
             onDetailVisibilityChanged(content != null)
+            val isSinglePane =
+                navigator.scaffoldValue[ListDetailPaneScaffoldRole.List] == PaneAdaptedValue.Hidden
             AnimatedPane {
                 NewsDetailPane(
                     article = content,
+                    onBack = if (isSinglePane) {
+                        { scope.launch { navigator.navigateBack() } }
+                    } else null
                 )
             }
         }

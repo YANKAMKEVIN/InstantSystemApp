@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.layout.AnimatedPane
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
+import androidx.compose.material3.adaptive.layout.PaneAdaptedValue
 import androidx.compose.material3.adaptive.navigation.NavigableListDetailPaneScaffold
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
@@ -13,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.PagingData
 import com.kev.instantsystem.domain.model.Article
+import com.kev.instantsystem.ui.bookmarks.rememberBookmarkToggle
 import com.kev.instantsystem.ui.components.NewsDetailPane
 import com.kev.instantsystem.ui.components.NewsListPane
 import kotlinx.coroutines.flow.Flow
@@ -29,7 +31,8 @@ fun HeadlinesRoute(
         modifier = modifier,
         onDetailVisibilityChanged = onDetailVisibilityChanged,
         categories = viewModel.categories,
-        articlesMap = viewModel.articlesMap
+        articlesMap = viewModel.articlesMap,
+        onArticleLongClick = rememberBookmarkToggle()
     )
 }
 
@@ -39,7 +42,8 @@ fun HeadlinesScreen(
     modifier: Modifier = Modifier,
     onDetailVisibilityChanged: (Boolean) -> Unit,
     categories: List<ArticleCategory>,
-    articlesMap: Map<ArticleCategory, Flow<PagingData<Article>>>
+    articlesMap: Map<ArticleCategory, Flow<PagingData<Article>>>,
+    onArticleLongClick: ((Article) -> Unit)? = null
 ) {
     val navigator = rememberListDetailPaneScaffoldNavigator<Any>()
     val scope = rememberCoroutineScope()
@@ -52,6 +56,7 @@ fun HeadlinesScreen(
             NewsListPane(
                 categories = categories,
                 articlesMap = articlesMap,
+                onArticleLongClick = onArticleLongClick,
                 onArticleClick = { article ->
                     scope.launch {
                         navigator.navigateTo(
@@ -66,9 +71,14 @@ fun HeadlinesScreen(
         detailPane = {
             val content = navigator.currentDestination?.contentKey as Article?
             onDetailVisibilityChanged(content != null)
+            val isSinglePane =
+                navigator.scaffoldValue[ListDetailPaneScaffoldRole.List] == PaneAdaptedValue.Hidden
             AnimatedPane {
                 NewsDetailPane(
                     article = content,
+                    onBack = if (isSinglePane) {
+                        { scope.launch { navigator.navigateBack() } }
+                    } else null
                 )
             }
         },

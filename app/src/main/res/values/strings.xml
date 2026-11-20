@@ -1,3 +1,76 @@
 <resources>
-    <string name="app_name">Instant System</string>
+    <string name="app_name" translatable="false">Instant System</string>
+
+    <!-- Bookmarks -->
+    <string name="bookmarks_empty_title">No saved articles</string>
+    <string name="bookmarks_empty_subtitle">Tap the bookmark on an article, or long-press it in a list, to read it later.</string>
+    <string name="bookmark_add">Save article</string>
+    <string name="bookmark_remove">Remove from saved articles</string>
+    <string name="bookmark_added">Article saved</string>
+    <string name="bookmark_removed">Article removed from saved articles</string>
+
+    <!-- Menu -->
+    <string name="menu_title">Menu</string>
+    <string name="menu_share_app">Share the app</string>
+    <string name="menu_share_text">Read the news with Instant System: %1$s</string>
+    <string name="menu_about">About this app</string>
+    <string name="about_version">Version %1$s</string>
+    <string name="about_news_credit">News provided by NewsAPI.org.</string>
+    <string name="about_news_api_link">Visit NewsAPI.org</string>
+    <string name="about_source_code">View the source code</string>
+    <string name="about_close">Close</string>
+
+    <!-- Article page -->
+    <string name="detail_back">Back</string>
+    <string name="detail_share">Share</string>
+    <string name="detail_open_in_browser">Open in browser</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_search">Search</string>
+    <string name="nav_headlines">Headlines</string>
+    <string name="nav_bookmarks">Saved</string>
+    <string name="nav_menu">Menu</string>
+
+    <!-- Headline categories -->
+    <string name="category_latest">Latest</string>
+    <string name="category_science">Science</string>
+    <string name="category_sports">Sports</string>
+    <string name="category_technology">Technology</string>
+    <string name="category_health">Health</string>
+    <string name="category_business">Business</string>
+    <string name="category_empty">No articles in this category</string>
+
+    <!-- Search -->
+    <string name="search_hint">Search news…</string>
+    <string name="search_min_chars">Type at least 3 characters</string>
+
+    <!-- Lists and states -->
+    <string name="live_badge" translatable="false">LIVE</string>
+    <string name="retry">Retry</string>
+    <string name="append_error">Couldn’t load more articles.</string>
+    <string name="empty_title">No results</string>
+    <string name="empty_subtitle">Try changing your search.</string>
+    <string name="error_title">Something went wrong</string>
+    <string name="error_message">Check your connection or try again later.</string>
+    <string name="error_unknown">Unknown error</string>
+    <string name="error_image_description">Error</string>
+
+    <!-- Article details -->
+    <string name="detail_select_article">Select an article</string>
+    <string name="detail_image_description">Article illustration</string>
+    <string name="detail_read_more">Read the full article</string>
+    <string name="loading">Loading articles…</string>
+
+    <!-- Search suggestions -->
+    <string name="search_clear">Clear search</string>
+    <string name="search_topics_title">Topics</string>
+    <string name="search_recent_title">Recent searches</string>
+    <string-array name="search_topics">
+        <item>AI</item>
+        <item>Climate</item>
+        <item>Sport</item>
+        <item>Economy</item>
+        <item>Space</item>
+    </string-array>
 </resources>

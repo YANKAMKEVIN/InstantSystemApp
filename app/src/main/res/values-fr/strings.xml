@@ -1,0 +1,73 @@
+<resources>
+    <!-- Bookmarks -->
+    <string name="bookmarks_empty_title">Aucun article enregistré</string>
+    <string name="bookmarks_empty_subtitle">Touchez le signet d’un article, ou appuyez longuement dessus dans une liste, pour le lire plus tard.</string>
+    <string name="bookmark_add">Enregistrer l’article</string>
+    <string name="bookmark_remove">Retirer des articles enregistrés</string>
+    <string name="bookmark_added">Article enregistré</string>
+    <string name="bookmark_removed">Article retiré des articles enregistrés</string>
+
+    <!-- Menu -->
+    <string name="menu_title">Menu</string>
+    <string name="menu_share_app">Partager l’app</string>
+    <string name="menu_share_text">Suivez l’actualité avec Instant System : %1$s</string>
+    <string name="menu_about">À propos</string>
+    <string name="about_version">Version %1$s</string>
+    <string name="about_news_credit">Actualités fournies par NewsAPI.org.</string>
+    <string name="about_news_api_link">Visiter NewsAPI.org</string>
+    <string name="about_source_code">Voir le code source</string>
+    <string name="about_close">Fermer</string>
+
+    <!-- Article page -->
+    <string name="detail_back">Retour</string>
+    <string name="detail_share">Partager</string>
+    <string name="detail_open_in_browser">Ouvrir dans le navigateur</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Accueil</string>
+    <string name="nav_search">Recherche</string>
+    <string name="nav_headlines">À la une</string>
+    <string name="nav_bookmarks">Lectures</string>
+    <string name="nav_menu">Menu</string>
+
+    <!-- Headline categories -->
+    <string name="category_latest">Dernières</string>
+    <string name="category_science">Science</string>
+    <string name="category_sports">Sport</string>
+    <string name="category_technology">Technologie</string>
+    <string name="category_health">Santé</string>
+    <string name="category_business">Économie</string>
+    <string name="category_empty">Aucun article pour cette catégorie</string>
+
+    <!-- Search -->
+    <string name="search_hint">Rechercher des actualités…</string>
+    <string name="search_min_chars">Tapez au moins 3 caractères</string>
+
+    <!-- Lists and states -->
+    <string name="retry">Réessayer</string>
+    <string name="append_error">Impossible de charger plus d’articles.</string>
+    <string name="empty_title">Aucun résultat</string>
+    <string name="empty_subtitle">Essayez de modifier vos critères de recherche.</string>
+    <string name="error_title">Une erreur s’est produite</string>
+    <string name="error_message">Vérifiez votre connexion ou réessayez plus tard.</string>
+    <string name="error_unknown">Erreur inconnue</string>
+    <string name="error_image_description">Erreur</string>
+
+    <!-- Article details -->
+    <string name="detail_select_article">Sélectionnez un article</string>
+    <string name="detail_image_description">Illustration de l’article</string>
+    <string name="detail_read_more">Lire l’article complet</string>
+    <string name="loading">Chargement des articles…</string>
+
+    <!-- Search suggestions -->
+    <string name="search_clear">Effacer la recherche</string>
+    <string name="search_topics_title">Sujets</string>
+    <string name="search_recent_title">Recherches récentes</string>
+    <string-array name="search_topics">
+        <item>IA</item>
+        <item>Climat</item>
+        <item>Sport</item>
+        <item>Économie</item>
+        <item>Espace</item>
+    </string-array>
+</resources>

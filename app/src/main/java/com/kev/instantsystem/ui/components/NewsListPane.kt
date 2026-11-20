@@ -1,9 +1,10 @@
 package com.kev.instantsystem.ui.components
 
+import androidx.compose.ui.res.stringResource
+import com.kev.instantsystem.R
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.kev.instantsystem.domain.model.Article
@@ -16,15 +17,17 @@ import kotlinx.coroutines.flow.flowOf
 fun NewsListPane(
     categories: List<ArticleCategory>,
     articlesMap: Map<ArticleCategory, Flow<PagingData<Article>>>,
-    onArticleClick: (Article) -> Unit
+    onArticleClick: (Article) -> Unit,
+    onArticleLongClick: ((Article) -> Unit)? = null
 ) {
     ScrollableTabRowComponent(
-        tabs = categories.map { it.label },
+        tabs = categories.map { stringResource(it.labelRes) },
         contentScreens = categories.map { category ->
             {
                 NewsCategoryContent(
                     articlesFlow = articlesMap[category],
-                    onArticleClick = onArticleClick
+                    onArticleClick = onArticleClick,
+                    onArticleLongClick = onArticleLongClick
                 )
             }
         }
@@ -34,39 +37,18 @@ fun NewsListPane(
 @Composable
 private fun NewsCategoryContent(
     articlesFlow: Flow<PagingData<Article>>?,
-    onArticleClick: (Article) -> Unit
+    onArticleClick: (Article) -> Unit,
+    onArticleLongClick: ((Article) -> Unit)? = null
 ) {
     if (articlesFlow == null) {
-        Text("Aucun article pour cette catégorie")
+        Text(stringResource(R.string.category_empty))
     } else {
         val articles = articlesFlow.collectAsLazyPagingItems()
-
-        when (articles.loadState.refresh) {
-            is LoadState.Loading -> LoaderScreen(state = LoaderState.Loading)
-
-            is LoadState.Error -> {
-                val error = (articles.loadState.refresh as LoadState.Error).error
-                LoaderScreen(
-                    state = LoaderState.Error,
-                    errorMessage = error.message ?: "Erreur inconnue",
-                    onRetry = { articles.retry() }
-                )
-            }
-
-            else -> {
-                if (articles.itemCount == 0) {
-                    EmptyListPlaceholder(
-                        buttonText = "Réessayer",
-                        onButtonClick = { articles.retry() }
-                    )
-                } else {
-                    NewsListScreenPaging(
-                        articles = articles,
-                        onArticleClick = onArticleClick
-                    )
-                }
-            }
-        }
+        PagedArticlesContent(
+            articles = articles,
+            onArticleClick = onArticleClick,
+            onArticleLongClick = onArticleLongClick
+        )
     }
 }
 

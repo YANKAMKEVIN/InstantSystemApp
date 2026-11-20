@@ -13,28 +13,43 @@ import com.kev.instantsystem.domain.model.Source
 @Composable
 fun ArticleDetailsScreen(
     article: Article,
+    isBookmarked: Boolean = false,
+    onToggleBookmark: () -> Unit = {},
+    onShare: () -> Unit = {},
+    onBack: (() -> Unit)? = null,
     onReadMoreClick: () -> Unit = {}
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-    ) {
-        ArticleTitle(article.title)
-
-        article.urlToImage?.let { imageUrl ->
-            ArticleImage(imageUrl)
-        }
-
-        ArticleMeta(
+    Column(modifier = Modifier.fillMaxSize()) {
+        ArticleTopBar(
             sourceName = article.source.name,
-            publishedAt = article.publishedAt
+            isBookmarked = isBookmarked,
+            onToggleBookmark = onToggleBookmark,
+            onShare = onShare,
+            onOpenInBrowser = onReadMoreClick,
+            onBack = onBack
         )
 
-        ArticleTextSection(text = article.description)
-        ArticleTextSection(text = article.content)
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+        ) {
+            ArticleTitle(article.title)
 
-        ReadMoreButton(onReadMoreClick)
+            article.urlToImage?.let { imageUrl ->
+                ArticleImage(imageUrl)
+            }
+
+            ArticleMeta(
+                sourceName = article.source.name,
+                publishedAt = article.publishedAt
+            )
+
+            ArticleLead(text = article.description)
+            ArticleBody(content = article.content)
+
+            ReadMoreButton(onReadMoreClick)
+        }
     }
 }
 

@@ -1,5 +1,7 @@
 package com.kev.instantsystem.ui.details
 
+import androidx.compose.ui.res.stringResource
+import com.kev.instantsystem.R
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -20,7 +22,7 @@ fun ReadMoreButton(onClick: () -> Unit) {
             .padding(horizontal = 16.dp)
             .fillMaxWidth()
     ) {
-        Text("Lire l’article complet")
+        Text(stringResource(R.string.detail_read_more))
     }
     Spacer(modifier = Modifier.height(32.dp))
 }
