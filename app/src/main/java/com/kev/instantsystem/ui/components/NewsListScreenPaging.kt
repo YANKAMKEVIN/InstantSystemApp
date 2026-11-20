@@ -1,5 +1,7 @@
 package com.kev.instantsystem.ui.components
 
+import androidx.compose.ui.res.stringResource
+import com.kev.instantsystem.R
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -74,13 +76,13 @@ internal fun AppendErrorFooter(onRetry: () -> Unit) {
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         Text(
-            text = "Impossible de charger plus d’articles.",
+            text = stringResource(R.string.append_error),
             color = MaterialTheme.colorScheme.onSurface,
             style = MaterialTheme.typography.bodyMedium,
             textAlign = TextAlign.Center
         )
         OutlinedButton(onClick = onRetry) {
-            Text("Réessayer")
+            Text(stringResource(R.string.retry))
         }
     }
 }

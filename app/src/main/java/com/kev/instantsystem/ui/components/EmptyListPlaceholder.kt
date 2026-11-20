@@ -1,5 +1,7 @@
 package com.kev.instantsystem.ui.components
 
+import androidx.compose.ui.res.stringResource
+import com.kev.instantsystem.R
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,8 +25,8 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun EmptyListPlaceholder(
     modifier: Modifier = Modifier,
-    title: String = "Aucun résultat",
-    subtitle: String = "Essayez de modifier vos critères de recherche.",
+    title: String = stringResource(R.string.empty_title),
+    subtitle: String = stringResource(R.string.empty_subtitle),
     emoji: String? = "📰",
     imageResId: Int? = null,
     buttonText: String? = null,

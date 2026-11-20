@@ -1,5 +1,7 @@
 package com.kev.instantsystem.ui.components
 
+import androidx.compose.ui.res.stringResource
+import com.kev.instantsystem.R
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
@@ -20,7 +22,7 @@ fun NewsListPane(
     onArticleLongClick: ((Article) -> Unit)? = null
 ) {
     ScrollableTabRowComponent(
-        tabs = categories.map { it.label },
+        tabs = categories.map { stringResource(it.labelRes) },
         contentScreens = categories.map { category ->
             {
                 NewsCategoryContent(
@@ -40,7 +42,7 @@ private fun NewsCategoryContent(
     onArticleLongClick: ((Article) -> Unit)? = null
 ) {
     if (articlesFlow == null) {
-        Text("Aucun article pour cette catégorie")
+        Text(stringResource(R.string.category_empty))
     } else {
         val articles = articlesFlow.collectAsLazyPagingItems()
 
@@ -51,7 +53,7 @@ private fun NewsCategoryContent(
                 val error = (articles.loadState.refresh as LoadState.Error).error
                 LoaderScreen(
                     state = LoaderState.Error,
-                    errorMessage = error.message ?: "Erreur inconnue",
+                    errorMessage = error.message ?: stringResource(R.string.error_unknown),
                     onRetry = { articles.retry() }
                 )
             }
@@ -59,7 +61,7 @@ private fun NewsCategoryContent(
             else -> {
                 if (articles.itemCount == 0) {
                     EmptyListPlaceholder(
-                        buttonText = "Réessayer",
+                        buttonText = stringResource(R.string.retry),
                         onButtonClick = { articles.retry() }
                     )
                 } else {

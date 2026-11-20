@@ -1,5 +1,7 @@
 package com.kev.instantsystem.ui.details
 
+import androidx.compose.ui.res.stringResource
+import com.kev.instantsystem.R
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,7 +17,7 @@ import coil.compose.AsyncImage
 fun ArticleImage(imageUrl: String) {
     AsyncImage(
         model = imageUrl,
-        contentDescription = "Illustration de l’article",
+        contentDescription = stringResource(R.string.detail_image_description),
         modifier = Modifier
             .fillMaxWidth()
             .aspectRatio(16f / 9f)

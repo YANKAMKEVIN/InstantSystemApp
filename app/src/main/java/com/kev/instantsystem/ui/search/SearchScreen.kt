@@ -1,5 +1,7 @@
 package com.kev.instantsystem.ui.search
 
+import androidx.compose.ui.res.stringResource
+import com.kev.instantsystem.R
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -74,14 +76,14 @@ fun SearchScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp),
-                    label = { Text("Search news...") },
+                    label = { Text(stringResource(R.string.search_hint)) },
                     singleLine = true,
                     leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) }
                 )
 
                 // Show placeholder until the query is valid
                 if (query.length < 3) {
-                    ScreenPlaceholder("Type more than 3 characters to begin", "🔍")
+                    ScreenPlaceholder(stringResource(R.string.search_min_chars), "🔍")
                     return@Column
                 }
 
@@ -94,7 +96,7 @@ fun SearchScreen(
                         val error = (articles.loadState.refresh as LoadState.Error).error
                         LoaderScreen(
                             state = LoaderState.Error,
-                            errorMessage = error.message ?: "Unknown error",
+                            errorMessage = error.message ?: stringResource(R.string.error_unknown),
                             onRetry = { articles.retry() }
                         )
                     }

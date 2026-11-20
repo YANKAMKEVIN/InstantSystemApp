@@ -1,5 +1,7 @@
 package com.kev.instantsystem.ui.home
 
+import androidx.compose.ui.res.stringResource
+import com.kev.instantsystem.R
 import androidx.compose.runtime.Composable
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
@@ -24,7 +26,7 @@ fun HomeListPane(
             val error = (articles.loadState.refresh as LoadState.Error).error
             LoaderScreen(
                 state = LoaderState.Error,
-                errorMessage = error.message ?: "Erreur inconnue",
+                errorMessage = error.message ?: stringResource(R.string.error_unknown),
                 onRetry = { articles.retry() }
             )
         }
@@ -32,7 +34,7 @@ fun HomeListPane(
         else -> {
             if (articles.itemCount == 0) {
                 EmptyListPlaceholder(
-                    buttonText = "Réessayer",
+                    buttonText = stringResource(R.string.retry),
                     onButtonClick = { articles.retry() }
                 )
             }

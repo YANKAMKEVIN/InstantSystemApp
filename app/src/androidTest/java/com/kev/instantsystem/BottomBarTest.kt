@@ -17,23 +17,23 @@ class BottomBarTest {
     @Test
     fun bottomBar_displaysAllItems_andRespondsToClick() {
         val selectedRoute = NavigationRoutes.HOME
-        var selectedLabel: String? = null
+        var selectedRouteClicked: String? = null
 
         composeTestRule.setContent {
             MainBottomBar(
                 currentRoute = selectedRoute,
-                onItemSelected = { selectedLabel = it.label }
+                onItemSelected = { selectedRouteClicked = it.route }
             )
         }
 
         composeTestRule.onNodeWithText("Home").assertIsDisplayed()
         composeTestRule.onNodeWithText("Search").assertIsDisplayed()
         composeTestRule.onNodeWithText("Headlines").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Lectures").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Saved").assertIsDisplayed()
         composeTestRule.onNodeWithText("Menu").assertIsDisplayed()
 
         composeTestRule.onNodeWithText("Search").performClick()
 
-        assert(selectedLabel == "Search")
+        assert(selectedRouteClicked == NavigationRoutes.SEARCH)
     }
 }

@@ -1,5 +1,7 @@
 package com.kev.instantsystem.ui.components
 
+import androidx.compose.ui.res.stringResource
+import com.kev.instantsystem.R
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -21,7 +23,7 @@ enum class LoaderState {
 fun LoaderScreen(
     state: LoaderState,
     onRetry: () -> Unit = {},
-    errorMessage: String = "Une erreur est survenue",
+    errorMessage: String = stringResource(R.string.error_message),
     content: @Composable () -> Unit = {}
 ) {
     when (state) {

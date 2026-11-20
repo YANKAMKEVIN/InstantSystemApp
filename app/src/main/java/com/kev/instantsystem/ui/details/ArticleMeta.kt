@@ -1,5 +1,7 @@
 package com.kev.instantsystem.ui.details
 
+import androidx.compose.ui.res.stringResource
+import com.kev.instantsystem.R
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -24,7 +26,7 @@ fun ArticleMeta(sourceName: String, publishedAt: String) {
         )
         Spacer(modifier = Modifier.height(4.dp))
         Text(
-            text = "Publié " + formatPublishedDate(publishedAt),
+            text = stringResource(R.string.detail_published, formatPublishedDate(publishedAt)),
             style = MaterialTheme.typography.labelMedium,
             color = Color.Gray
         )

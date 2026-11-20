@@ -1,5 +1,6 @@
 package com.kev.instantsystem.ui.components
 
+import androidx.compose.ui.res.stringResource
 import android.content.Context
 import android.content.Intent
 import androidx.compose.foundation.background
@@ -47,7 +48,7 @@ fun NewsDetailPane(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Sélectionnez un article")
+            Text(text = stringResource(R.string.detail_select_article))
         }
     }
 

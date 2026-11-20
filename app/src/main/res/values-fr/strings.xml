@@ -22,4 +22,40 @@
     <string name="detail_back">Retour</string>
     <string name="detail_share">Partager</string>
     <string name="detail_open_in_browser">Ouvrir dans le navigateur</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Accueil</string>
+    <string name="nav_search">Recherche</string>
+    <string name="nav_headlines">À la une</string>
+    <string name="nav_bookmarks">Lectures</string>
+    <string name="nav_menu">Menu</string>
+
+    <!-- Headline categories -->
+    <string name="category_latest">Dernières</string>
+    <string name="category_science">Science</string>
+    <string name="category_sports">Sport</string>
+    <string name="category_technology">Technologie</string>
+    <string name="category_health">Santé</string>
+    <string name="category_business">Économie</string>
+    <string name="category_empty">Aucun article pour cette catégorie</string>
+
+    <!-- Search -->
+    <string name="search_hint">Rechercher des actualités…</string>
+    <string name="search_min_chars">Tapez au moins 3 caractères</string>
+
+    <!-- Lists and states -->
+    <string name="retry">Réessayer</string>
+    <string name="append_error">Impossible de charger plus d’articles.</string>
+    <string name="empty_title">Aucun résultat</string>
+    <string name="empty_subtitle">Essayez de modifier vos critères de recherche.</string>
+    <string name="error_title">Une erreur s’est produite</string>
+    <string name="error_message">Vérifiez votre connexion ou réessayez plus tard.</string>
+    <string name="error_unknown">Erreur inconnue</string>
+    <string name="error_image_description">Erreur</string>
+
+    <!-- Article details -->
+    <string name="detail_select_article">Sélectionnez un article</string>
+    <string name="detail_image_description">Illustration de l’article</string>
+    <string name="detail_published">Publié %1$s</string>
+    <string name="detail_read_more">Lire l’article complet</string>
 </resources>

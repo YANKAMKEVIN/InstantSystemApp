@@ -1,5 +1,6 @@
 package com.kev.instantsystem.ui.navigation
 
+import androidx.compose.ui.res.stringResource
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -22,6 +23,7 @@ fun MainBottomBar(currentRoute: String?, onItemSelected: (BottomNavItem) -> Unit
     NavigationBar(containerColor = MaterialTheme.colorScheme.background) {
 
         allItems.forEach { item ->
+            val label = stringResource(item.labelRes)
             val isSelected = currentRoute == item.route
             NavigationBarItem(
                 selected = isSelected,
@@ -31,14 +33,14 @@ fun MainBottomBar(currentRoute: String?, onItemSelected: (BottomNavItem) -> Unit
                         Icon(
                             painter = painterResource(id = item.iconRes),
                             modifier = Modifier.size(26.dp),
-                            contentDescription = item.label,
+                            contentDescription = null,
                             tint = Color.White
                         )
                     } else {
                         item.defaultIcon?.let {
                             Icon(
                                 imageVector = it,
-                                contentDescription = item.label,
+                                contentDescription = null,
                                 tint = Color.White
                             )
                         }
@@ -46,7 +48,7 @@ fun MainBottomBar(currentRoute: String?, onItemSelected: (BottomNavItem) -> Unit
                 },
                 label = {
                     Text(
-                        text = item.label,
+                        text = label,
                         style = MaterialTheme.typography.labelSmall.copy(
                             fontWeight = FontWeight.Bold,
                             fontSize = 12.sp,
