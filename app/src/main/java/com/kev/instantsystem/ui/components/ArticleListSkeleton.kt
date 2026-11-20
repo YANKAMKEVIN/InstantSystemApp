@@ -45,7 +45,7 @@ fun ArticleListSkeleton(modifier: Modifier = Modifier) {
         animationSpec = infiniteRepeatable(tween(durationMillis = 800), RepeatMode.Reverse),
         label = "skeletonAlpha"
     )
-    val blockColor = MaterialTheme.ISColors.Neutral._700
+    val blockColor = MaterialTheme.ISColors.Neutral._600
     val loadingDescription = stringResource(R.string.loading)
 
     Column(
