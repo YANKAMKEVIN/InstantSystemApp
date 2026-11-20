@@ -5,7 +5,6 @@ import com.kev.instantsystem.R
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.kev.instantsystem.domain.model.Article
@@ -45,34 +44,11 @@ private fun NewsCategoryContent(
         Text(stringResource(R.string.category_empty))
     } else {
         val articles = articlesFlow.collectAsLazyPagingItems()
-
-        when (articles.loadState.refresh) {
-            is LoadState.Loading -> LoaderScreen(state = LoaderState.Loading)
-
-            is LoadState.Error -> {
-                val error = (articles.loadState.refresh as LoadState.Error).error
-                LoaderScreen(
-                    state = LoaderState.Error,
-                    errorMessage = error.message ?: stringResource(R.string.error_unknown),
-                    onRetry = { articles.retry() }
-                )
-            }
-
-            else -> {
-                if (articles.itemCount == 0) {
-                    EmptyListPlaceholder(
-                        buttonText = stringResource(R.string.retry),
-                        onButtonClick = { articles.retry() }
-                    )
-                } else {
-                    NewsListScreenPaging(
-                        articles = articles,
-                        onArticleClick = onArticleClick,
-                        onArticleLongClick = onArticleLongClick
-                    )
-                }
-            }
-        }
+        PagedArticlesContent(
+            articles = articles,
+            onArticleClick = onArticleClick,
+            onArticleLongClick = onArticleLongClick
+        )
     }
 }
 

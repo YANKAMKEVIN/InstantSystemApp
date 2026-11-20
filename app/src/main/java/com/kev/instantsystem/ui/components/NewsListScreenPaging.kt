@@ -5,13 +5,16 @@ import com.kev.instantsystem.R
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,13 +24,29 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.kev.instantsystem.domain.model.Article
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewsListScreenPaging(
     articles: LazyPagingItems<Article>,
     onArticleClick: (Article) -> Unit = {},
     onArticleLongClick: ((Article) -> Unit)? = null
 ) {
-    LazyColumn {
+    PullToRefreshBox(
+        isRefreshing = articles.loadState.refresh is LoadState.Loading,
+        onRefresh = { articles.refresh() },
+        modifier = Modifier.fillMaxSize()
+    ) {
+        ArticleLazyColumn(articles, onArticleClick, onArticleLongClick)
+    }
+}
+
+@Composable
+private fun ArticleLazyColumn(
+    articles: LazyPagingItems<Article>,
+    onArticleClick: (Article) -> Unit,
+    onArticleLongClick: ((Article) -> Unit)?
+) {
+    LazyColumn(modifier = Modifier.fillMaxSize()) {
         items(articles.itemCount) { index ->
             val article = articles[index]
             article?.let {

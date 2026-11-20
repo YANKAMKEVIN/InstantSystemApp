@@ -23,16 +23,13 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.kev.instantsystem.domain.model.Article
 import com.kev.instantsystem.ui.bookmarks.rememberBookmarkToggle
 import com.kev.instantsystem.ui.components.EmptyListPlaceholder
-import com.kev.instantsystem.ui.components.LoaderScreen
-import com.kev.instantsystem.ui.components.LoaderState
 import com.kev.instantsystem.ui.components.NewsDetailPane
-import com.kev.instantsystem.ui.components.NewsListScreenPaging
+import com.kev.instantsystem.ui.components.PagedArticlesContent
 import com.kev.instantsystem.ui.placeholder.ScreenPlaceholder
 import kotlinx.coroutines.launch
 
@@ -87,38 +84,19 @@ fun SearchScreen(
                     return@Column
                 }
 
-                when (articles.loadState.refresh) {
-                    is LoadState.Loading -> {
-                        LoaderScreen(state = LoaderState.Loading)
-                    }
-
-                    is LoadState.Error -> {
-                        val error = (articles.loadState.refresh as LoadState.Error).error
-                        LoaderScreen(
-                            state = LoaderState.Error,
-                            errorMessage = error.message ?: stringResource(R.string.error_unknown),
-                            onRetry = { articles.retry() }
-                        )
-                    }
-
-                    else -> {
-                        if (articles.itemCount == 0) {
-                            EmptyListPlaceholder()
-                        } else
-                            NewsListScreenPaging(
-                                articles = articles,
-                                onArticleLongClick = onArticleLongClick,
-                                onArticleClick = { article ->
-                                    scope.launch {
-                                        navigator.navigateTo(
-                                            pane = ListDetailPaneScaffoldRole.Detail,
-                                            contentKey = article
-                                        )
-                                    }
-                                }
+                PagedArticlesContent(
+                    articles = articles,
+                    onArticleLongClick = onArticleLongClick,
+                    onArticleClick = { article ->
+                        scope.launch {
+                            navigator.navigateTo(
+                                pane = ListDetailPaneScaffoldRole.Detail,
+                                contentKey = article
                             )
-                    }
-                }
+                        }
+                    },
+                    emptyContent = { EmptyListPlaceholder() }
+                )
             }
         },
         detailPane = {
