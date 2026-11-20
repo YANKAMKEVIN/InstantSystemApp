@@ -45,8 +45,8 @@ fun ArticleDetailsScreen(
                 publishedAt = article.publishedAt
             )
 
-            ArticleTextSection(text = article.description)
-            ArticleTextSection(text = article.content)
+            ArticleLead(text = article.description)
+            ArticleBody(content = article.content)
 
             ReadMoreButton(onReadMoreClick)
         }

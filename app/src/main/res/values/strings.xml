@@ -59,7 +59,6 @@
     <!-- Article details -->
     <string name="detail_select_article">Select an article</string>
     <string name="detail_image_description">Article illustration</string>
-    <string name="detail_published">Published %1$s</string>
     <string name="detail_read_more">Read the full article</string>
     <string name="loading">Loading articles…</string>
 </resources>
