@@ -21,13 +21,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.kev.instantsystem.domain.model.Article
 import com.kev.instantsystem.domain.model.Source
+import com.kev.instantsystem.ui.theme.ISColors
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -45,12 +48,26 @@ fun MainArticleCard(
             .height(300.dp)
             .combinedClickable(onClick = onClick, onLongClick = onLongClick)
     ) {
-        article.urlToImage?.let { imageUrl ->
+        val imageUrl = article.urlToImage
+        if (imageUrl != null) {
             AsyncImage(
-                model = imageUrl,
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(imageUrl)
+                    .crossfade(true)
+                    .build(),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.surfaceVariant)
+            )
+        } else {
+            // No image: a brand gradient instead of a plain black block.
+            val brand = MaterialTheme.ISColors.Brand
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Brush.linearGradient(listOf(brand._800, brand._500)))
             )
         }
 

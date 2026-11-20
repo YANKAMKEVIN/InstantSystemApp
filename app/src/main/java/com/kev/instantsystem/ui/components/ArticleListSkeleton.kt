@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -33,7 +32,8 @@ import com.kev.instantsystem.R
 import com.kev.instantsystem.ui.theme.ISColors
 
 /**
- * Pulsing placeholder shaped like a news list (featured article, then rows) shown while the
+ * Pulsing placeholder shaped like a news list (featured article, then rows with a thumbnail on
+ * the right) shown while the
  * first page loads, so the screen already has its structure.
  */
 @Composable
@@ -70,16 +70,20 @@ fun ArticleListSkeleton(modifier: Modifier = Modifier) {
 @Composable
 private fun SkeletonRow(color: Color) {
     Row(modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)) {
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            SkeletonBar(color = color, widthFraction = 0.95f)
+            SkeletonBar(color = color, widthFraction = 0.7f)
+            SkeletonBar(color = color, widthFraction = 0.4f)
+        }
         Box(
             modifier = Modifier
-                .padding(end = 8.dp)
-                .size(48.dp)
-                .background(color, CircleShape)
+                .padding(start = 12.dp)
+                .size(72.dp)
+                .background(color, RoundedCornerShape(8.dp))
         )
-        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            SkeletonBar(color = color, widthFraction = 0.9f)
-            SkeletonBar(color = color, widthFraction = 0.6f)
-        }
     }
 }
 
