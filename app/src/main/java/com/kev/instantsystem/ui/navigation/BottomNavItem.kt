@@ -2,8 +2,6 @@ package com.kev.instantsystem.ui.navigation
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -13,7 +11,9 @@ sealed class BottomNavItem(
     val route: String,
     @StringRes val labelRes: Int,
     val iconRes: Int? = null,
-    val defaultIcon: ImageVector? = null
+    val defaultIcon: ImageVector? = null,
+    /** Filled variant shown while the tab is selected, when the icon has one. */
+    val selectedIconRes: Int? = null
 
 ) {
     init {
@@ -40,14 +40,15 @@ sealed class BottomNavItem(
         BottomNavItem(
             route = NavigationRoutes.BOOKMARK,
             labelRes = R.string.nav_bookmarks,
-            defaultIcon = Icons.Default.Favorite
+            iconRes = R.drawable.ic_bookmark_border,
+            selectedIconRes = R.drawable.ic_bookmark
         )
 
     data object Headlines :
         BottomNavItem(
             route = NavigationRoutes.HEADLINES,
             labelRes = R.string.nav_headlines,
-            defaultIcon = Icons.Default.Info
+            iconRes = R.drawable.ic_newspaper
         )
 
     data object Menu : BottomNavItem(

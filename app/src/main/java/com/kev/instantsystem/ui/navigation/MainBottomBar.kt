@@ -1,6 +1,5 @@
 package com.kev.instantsystem.ui.navigation
 
-import androidx.compose.ui.res.stringResource
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -12,13 +11,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kev.instantsystem.R
 import com.kev.instantsystem.ui.navigation.BottomNavItem.Companion.allItems
+import com.kev.instantsystem.ui.theme.ISColors
 
 @Composable
 fun MainBottomBar(currentRoute: String?, onItemSelected: (BottomNavItem) -> Unit) {
+    val activeColor = MaterialTheme.ISColors.Brand._500
+    val inactiveColor = MaterialTheme.ISColors.Neutral._400
 
     NavigationBar(containerColor = MaterialTheme.colorScheme.background) {
 
@@ -29,19 +33,19 @@ fun MainBottomBar(currentRoute: String?, onItemSelected: (BottomNavItem) -> Unit
                 selected = isSelected,
                 onClick = { onItemSelected(item) },
                 icon = {
-                    if (item.iconRes != null) {
+                    // No tint here: the item colours below handle selected / unselected.
+                    val iconRes = if (isSelected) item.selectedIconRes ?: item.iconRes else item.iconRes
+                    if (iconRes != null) {
                         Icon(
-                            painter = painterResource(id = item.iconRes),
-                            modifier = Modifier.size(26.dp),
-                            contentDescription = null,
-                            tint = Color.White
+                            painter = painterResource(id = iconRes),
+                            modifier = Modifier.size(if (iconRes == R.drawable.headlines_logo) 26.dp else 24.dp),
+                            contentDescription = null
                         )
                     } else {
                         item.defaultIcon?.let {
                             Icon(
                                 imageVector = it,
-                                contentDescription = null,
-                                tint = Color.White
+                                contentDescription = null
                             )
                         }
                     }
@@ -52,16 +56,17 @@ fun MainBottomBar(currentRoute: String?, onItemSelected: (BottomNavItem) -> Unit
                         style = MaterialTheme.typography.labelSmall.copy(
                             fontWeight = FontWeight.Bold,
                             fontSize = 12.sp,
-                            color = if (isSelected) Color.White else Color.Gray
+                            // Let the item colours apply (the theme styles carry a fixed colour).
+                            color = Color.Unspecified
                         ),
                     )
                 },
                 colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = Color.White,
-                    unselectedIconColor = Color.Gray,
-                    selectedTextColor = Color.White,
-                    unselectedTextColor = Color.Gray,
-                    indicatorColor = Color.DarkGray
+                    selectedIconColor = activeColor,
+                    unselectedIconColor = inactiveColor,
+                    selectedTextColor = activeColor,
+                    unselectedTextColor = inactiveColor,
+                    indicatorColor = activeColor.copy(alpha = 0.16f)
                 )
             )
         }
