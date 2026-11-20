@@ -1,9 +1,10 @@
 package com.kev.instantsystem.ui.components
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Tab
@@ -11,21 +12,17 @@ import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
 import com.kev.instantsystem.ui.theme.ISColors
 import com.kev.instantsystem.ui.theme.ISTypography
 import com.kev.instantsystem.ui.utils.SpacerVertical
+import kotlinx.coroutines.launch
 
 /**
- * A custom Composable for creating a tabbed interface.
+ * A custom Composable for creating a tabbed interface whose content can be swiped between tabs.
  *
  * @param tabs List of tab titles.
  * @param contentScreens List of Composable functions representing content screens for each tab.
@@ -43,8 +40,9 @@ fun ScrollableTabRowComponent(
     contentColor: Color = MaterialTheme.colorScheme.background,
     indicatorColor: Color = MaterialTheme.ISColors.Brand._300
 ) {
-    var selectedTabIndex by remember { mutableIntStateOf(0) }
-    val textWidths = remember { mutableStateListOf<Int>() }
+    val pagerState = rememberPagerState(pageCount = { tabs.size })
+    val scope = rememberCoroutineScope()
+    val selectedTabIndex = pagerState.currentPage
 
     Column(modifier = modifier.fillMaxSize()) {
         ScrollableTabRow(
@@ -66,28 +64,24 @@ fun ScrollableTabRowComponent(
                 Tab(
                     modifier = Modifier.padding(horizontal = 4.dp, vertical = 8.dp),
                     selected = selected,
-                    onClick = { selectedTabIndex = index },
+                    onClick = { scope.launch { pagerState.animateScrollToPage(index) } },
                 ) {
                     Text(
                         text = tabTitle,
                         color = Color.White,
-                        style = if (selectedTabIndex == index) MaterialTheme.ISTypography.body.defaultMedium else MaterialTheme.ISTypography.body.medium,
-                        modifier = Modifier.onGloballyPositioned {
-                            val width = it.size.width
-                            if (index >= textWidths.size) {
-                                textWidths.add(width)
-                            } else {
-                                textWidths[index] = width
-                            }
-                        }
+                        style = if (selected) MaterialTheme.ISTypography.body.defaultMedium else MaterialTheme.ISTypography.body.medium
                     )
                 }
             }
         }
         SpacerVertical(8.dp)
-        contentScreens.getOrNull(selectedTabIndex)?.invoke() ?: Log.e(
-            "TabRow",
-            "No content for tab index $selectedTabIndex"
-        )
+        // Swiping the content changes the tab, and tapping a tab scrolls the content.
+        HorizontalPager(
+            state = pagerState,
+            modifier = Modifier.fillMaxSize(),
+            key = { it }
+        ) { page ->
+            contentScreens.getOrNull(page)?.invoke()
+        }
     }
 }
