@@ -6,6 +6,8 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.kev.instantsystem.domain.model.Article
 import com.kev.instantsystem.domain.usecase.SearchEverythingUseCase
+import com.kev.instantsystem.ui.components.RefreshFailureReporter
+import com.kev.instantsystem.ui.components.RefreshFailures
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -21,7 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val searchEverythingUseCase: SearchEverythingUseCase
-) : ViewModel() {
+) : ViewModel(), RefreshFailureReporter by RefreshFailures() {
 
     /**
      * Starts from the device language, so the first search is already the right one (it used to

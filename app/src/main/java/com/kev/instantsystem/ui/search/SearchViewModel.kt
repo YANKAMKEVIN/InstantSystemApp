@@ -7,6 +7,8 @@ import androidx.paging.cachedIn
 import com.kev.instantsystem.data.search.RecentSearchesRepository
 import com.kev.instantsystem.domain.model.Article
 import com.kev.instantsystem.domain.usecase.SearchEverythingUseCase
+import com.kev.instantsystem.ui.components.RefreshFailureReporter
+import com.kev.instantsystem.ui.components.RefreshFailures
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -25,7 +27,7 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     private val searchEverythingUseCase: SearchEverythingUseCase,
     private val recentSearchesRepository: RecentSearchesRepository
-) : ViewModel() {
+) : ViewModel(), RefreshFailureReporter by RefreshFailures() {
 
     // Holds the current user query
     private val _query = MutableStateFlow("")

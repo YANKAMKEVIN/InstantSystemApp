@@ -9,6 +9,7 @@ Developed with Jetpack Compose and Kotlin using a Clean Architecture approach.
 - 🧭 Browse top headlines by categories
 - 🔖 Bookmark articles and read them later in the "Lectures" tab
 - 📴 Top headlines available offline: the last list received is shown, with the date it was received
+- 🔁 A reload that fails while articles are on screen keeps them and shows a message at the bottom with "Retry"
 - 📱 Adaptive layout with master-detail (tablet-friendly)
 - 🌙 Modern UI with Material 3
 - ✅ Unit and UI tests (ViewModel, UseCases, Composables)

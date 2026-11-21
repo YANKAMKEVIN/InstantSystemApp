@@ -1,14 +1,24 @@
 package com.kev.instantsystem.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.res.stringResource
 import androidx.paging.LoadState
@@ -45,6 +55,9 @@ fun PagedArticlesContent(
     onArticleLongClick: ((Article) -> Unit)? = null,
     /** When the cached list was received (top headlines only), see [cachedListDate]. */
     cachedAt: Long? = null,
+    /** Shows a failed reload of the articles on screen; [listKey] tells this list from the others. */
+    refreshFailures: RefreshFailureReporter? = null,
+    listKey: String = "",
     emptyContent: @Composable () -> Unit = {
         EmptyListPlaceholder(
             buttonText = stringResource(R.string.retry),
@@ -53,6 +66,9 @@ fun PagedArticlesContent(
     }
 ) {
     val refresh = articles.loadState.refresh
+    LaunchedEffect(refreshFailures, listKey, refresh) {
+        refreshFailures?.onListLoadState(listKey, refresh, articles.itemCount)
+    }
     when (resolveListContent(refresh, articles.itemCount)) {
         ListContent.Skeleton -> LoaderScreen(state = LoaderState.Loading)
 
@@ -64,15 +80,25 @@ fun PagedArticlesContent(
 
         ListContent.Empty -> emptyContent()
 
-        ListContent.Articles -> Column(modifier = Modifier.fillMaxSize()) {
-            cachedListDate(refresh, articles.itemCount, cachedAt)?.let { date ->
-                CachedListBanner(date)
+        ListContent.Articles -> Box(modifier = Modifier.fillMaxSize()) {
+            Column(modifier = Modifier.fillMaxSize()) {
+                cachedListDate(refresh, articles.itemCount, cachedAt)?.let { date ->
+                    CachedListBanner(date)
+                }
+                NewsListScreenPaging(
+                    articles = articles,
+                    onArticleClick = onArticleClick,
+                    onArticleLongClick = onArticleLongClick
+                )
             }
-            NewsListScreenPaging(
-                articles = articles,
-                onArticleClick = onArticleClick,
-                onArticleLongClick = onArticleLongClick
-            )
+            if (refreshFailures != null) {
+                RefreshFailureSnackbar(
+                    refreshFailures = refreshFailures,
+                    listKey = listKey,
+                    onRetry = { articles.refresh() },
+                    modifier = Modifier.align(Alignment.BottomCenter)
+                )
+            }
         }
     }
 }
@@ -89,4 +115,30 @@ private fun CachedListBanner(cachedAt: Long) {
         color = MaterialTheme.colorScheme.onSurfaceVariant,
         style = MaterialTheme.typography.bodySmall
     )
+}
+
+/** "Couldn't refresh the list." at the bottom of the list, with "Retry", as in the aviv app. */
+@Composable
+private fun RefreshFailureSnackbar(
+    refreshFailures: RefreshFailureReporter,
+    listKey: String,
+    onRetry: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val snackbarHostState = remember { SnackbarHostState() }
+    val context = LocalContext.current
+    val failure = refreshFailures.refreshFailure.collectAsState().value?.takeIf { it.listKey == listKey }
+
+    failure?.let {
+        LaunchedEffect(it) {
+            val result = snackbarHostState.showSnackbar(
+                message = context.getString(refreshErrorMessageRes(it.error)),
+                actionLabel = context.getString(R.string.retry),
+                duration = SnackbarDuration.Long
+            )
+            refreshFailures.onRefreshFailureShown(it)
+            if (result == SnackbarResult.ActionPerformed) onRetry()
+        }
+    }
+    SnackbarHost(hostState = snackbarHostState, modifier = modifier)
 }

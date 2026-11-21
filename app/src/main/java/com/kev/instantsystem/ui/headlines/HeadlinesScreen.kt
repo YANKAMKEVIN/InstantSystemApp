@@ -17,6 +17,7 @@ import com.kev.instantsystem.domain.model.Article
 import com.kev.instantsystem.ui.bookmarks.rememberBookmarkToggle
 import com.kev.instantsystem.ui.components.NewsDetailPane
 import com.kev.instantsystem.ui.components.NewsListPane
+import com.kev.instantsystem.ui.components.RefreshFailureReporter
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
@@ -33,6 +34,7 @@ fun HeadlinesRoute(
         categories = viewModel.categories,
         articlesMap = viewModel.articlesMap,
         updatedAtMap = viewModel.updatedAtMap,
+        refreshFailures = viewModel,
         onArticleLongClick = rememberBookmarkToggle()
     )
 }
@@ -45,6 +47,7 @@ fun HeadlinesScreen(
     categories: List<ArticleCategory>,
     articlesMap: Map<ArticleCategory, Flow<PagingData<Article>>>,
     updatedAtMap: Map<ArticleCategory, Flow<Long?>> = emptyMap(),
+    refreshFailures: RefreshFailureReporter? = null,
     onArticleLongClick: ((Article) -> Unit)? = null
 ) {
     val navigator = rememberListDetailPaneScaffoldNavigator<Any>()
@@ -59,6 +62,7 @@ fun HeadlinesScreen(
                 categories = categories,
                 articlesMap = articlesMap,
                 updatedAtMap = updatedAtMap,
+                refreshFailures = refreshFailures,
                 onArticleLongClick = onArticleLongClick,
                 onArticleClick = { article ->
                     scope.launch {

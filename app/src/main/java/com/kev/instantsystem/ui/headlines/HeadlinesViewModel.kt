@@ -6,6 +6,8 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.kev.instantsystem.domain.model.Article
 import com.kev.instantsystem.domain.usecase.GetTopHeadlinesUseCase
+import com.kev.instantsystem.ui.components.RefreshFailureReporter
+import com.kev.instantsystem.ui.components.RefreshFailures
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -13,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HeadlinesViewModel @Inject constructor(
     private val getTopHeadlinesUseCase: GetTopHeadlinesUseCase
-) : ViewModel() {
+) : ViewModel(), RefreshFailureReporter by RefreshFailures() {
 
     val categories = listOf(
         ArticleCategory.Latest,

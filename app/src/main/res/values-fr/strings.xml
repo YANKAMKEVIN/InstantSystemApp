@@ -47,6 +47,9 @@
     <string name="retry">Réessayer</string>
     <string name="append_error">Impossible de charger plus d’articles.</string>
     <string name="headlines_cached_at">Dernière liste reçue : %1$s</string>
+    <string name="refresh_error">Impossible d’actualiser la liste.</string>
+    <string name="refresh_error_offline">Actualisation impossible : pas de connexion internet.</string>
+    <string name="refresh_error_rate_limited">Actualisation impossible : limite de requêtes NewsAPI atteinte.</string>
     <string name="empty_title">Aucun résultat</string>
     <string name="empty_subtitle">Essayez de modifier vos critères de recherche.</string>
     <string name="error_title">Une erreur s’est produite</string>
