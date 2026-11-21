@@ -27,12 +27,20 @@ class HeadlinesViewModel @Inject constructor(
     val articlesMap: Map<ArticleCategory, Flow<PagingData<Article>>> =
         categories.associateWith { getArticles(it.category) }
 
+    /** When each cached list was received, shown when it cannot be reloaded (offline). */
+    val updatedAtMap: Map<ArticleCategory, Flow<Long?>> =
+        categories.associateWith { getTopHeadlinesUseCase.updatedAt(country = COUNTRY, category = it.category) }
+
     private fun getArticles(category: String?): Flow<PagingData<Article>> {
         return getTopHeadlinesUseCase(
-            country = "us",
+            country = COUNTRY,
             category = category,
             query = null
         ).cachedIn(viewModelScope)
     }
 
+    companion object {
+        /** Top headlines stay on the United States (Kevin's decision, 21/11). */
+        const val COUNTRY = "us"
+    }
 }

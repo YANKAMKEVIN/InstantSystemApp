@@ -8,6 +8,7 @@ Developed with Jetpack Compose and Kotlin using a Clean Architecture approach.
 - 🔍 Search news articles dynamically
 - 🧭 Browse top headlines by categories
 - 🔖 Bookmark articles and read them later in the "Lectures" tab
+- 📴 Top headlines available offline: the last list received is shown, with the date it was received
 - 📱 Adaptive layout with master-detail (tablet-friendly)
 - 🌙 Modern UI with Material 3
 - ✅ Unit and UI tests (ViewModel, UseCases, Composables)
@@ -34,7 +35,7 @@ The app uses **Clean MVVM Architecture** with the following layers:
 
 - **UI Layer**: Jetpack Compose + Hilt-powered ViewModels  
 - **Domain Layer**: Use cases + repository interfaces (business rules)  
-- **Data Layer**: Retrofit API, Paging3 integration
+- **Data Layer**: Retrofit API, Paging3 integration, Room cache of the top headlines (`RemoteMediator`)
 
 This ensures:
 - Separation of concerns
@@ -55,6 +56,7 @@ This ensures:
 | DI           | Hilt                                          | Clean dependency management |
 | Networking   | Retrofit + OkHttp                             | Standard, robust API handling |
 | Paging       | Paging 3                                      | Efficient pagination |
+| Offline cache| Room (+ `room-paging`, `RemoteMediator`)      | Top headlines readable offline |
 | Image Loading| Coil                                          | Fast and lightweight |
 | Testing      | JUnit, Turbine, Mockk, Compose UI testing     | Full test coverage support |
 
@@ -74,7 +76,10 @@ This ensures:
 
 - **Jetpack Compose**: To build modern UIs with less boilerplate.
 - **Material 3 Adaptive Navigation**: To demonstrate ability to build tablet-friendly master-detail views.
-- **No Room/Offline Support**: Given the scope, I prioritized API interaction and UI instead of offline storage.
+- **Offline cache for the top headlines only**: Room stores the last list received for each category of the
+  "À la une" screen (read through a `RemoteMediator`). Offline, that list stays on screen with the date it was
+  received. Home and search results are not cached. The Room schema is exported to `app/schemas` for future
+  migrations (version 1: no database existed before, so there is no migration yet).
 - **Bookmarks without Room**: Bookmarked articles are stored on the device in SharedPreferences (JSON via Gson, already
   used by Retrofit), to avoid a database for a short list.
 - **Single Activity architecture**: Recommended pattern with Compose Navigation.
@@ -83,9 +88,9 @@ This ensures:
 
 ## 🚧 Known limitations / improvements
 
-- 🌐 No offline caching (Room + RemoteMediator could be added)
-- 🌍 The home feed follows the device language (English when NewsAPI does not support it), but top headlines are
-  still hardcoded to the "us" country
+- 🌐 Only the top headlines are cached offline (not the home feed nor search results)
+- 🌍 The home feed follows the device language (English when NewsAPI does not support it); top headlines stay on
+  the "us" country on purpose
 - 🕘 Recent searches are kept for the session only
 - 🧪 No end-to-end (instrumented) tests, only UI + unit tests
 

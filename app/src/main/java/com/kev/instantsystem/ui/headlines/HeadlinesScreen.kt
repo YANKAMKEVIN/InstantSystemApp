@@ -32,6 +32,7 @@ fun HeadlinesRoute(
         onDetailVisibilityChanged = onDetailVisibilityChanged,
         categories = viewModel.categories,
         articlesMap = viewModel.articlesMap,
+        updatedAtMap = viewModel.updatedAtMap,
         onArticleLongClick = rememberBookmarkToggle()
     )
 }
@@ -43,6 +44,7 @@ fun HeadlinesScreen(
     onDetailVisibilityChanged: (Boolean) -> Unit,
     categories: List<ArticleCategory>,
     articlesMap: Map<ArticleCategory, Flow<PagingData<Article>>>,
+    updatedAtMap: Map<ArticleCategory, Flow<Long?>> = emptyMap(),
     onArticleLongClick: ((Article) -> Unit)? = null
 ) {
     val navigator = rememberListDetailPaneScaffoldNavigator<Any>()
@@ -56,6 +58,7 @@ fun HeadlinesScreen(
             NewsListPane(
                 categories = categories,
                 articlesMap = articlesMap,
+                updatedAtMap = updatedAtMap,
                 onArticleLongClick = onArticleLongClick,
                 onArticleClick = { article ->
                     scope.launch {

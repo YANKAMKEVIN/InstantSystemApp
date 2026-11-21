@@ -1,24 +1,37 @@
 package com.kev.instantsystem.data.repository
 
 
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.paging.map
+import com.kev.instantsystem.data.local.HeadlinesDao
+import com.kev.instantsystem.data.local.headlinesCacheKey
+import com.kev.instantsystem.data.local.toDomain
 import com.kev.instantsystem.data.paging.EverythingPagingSourceFactory
+import com.kev.instantsystem.data.paging.HeadlinesRemoteMediator
 import com.kev.instantsystem.data.paging.NewsPagingSourceFactory
+import com.kev.instantsystem.data.remote.datasource.NewsRemoteDataSource
 import com.kev.instantsystem.domain.repository.NewsRepository
 import com.kev.instantsystem.domain.model.Article
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 /**
  * Implementation of [NewsRepository] that provides paginated access to news articles.
  *
  * This class delegates PagingSource creation to the appropriate factories.
  * It handles both "top-headlines" and "everything" endpoints from the News API.
+ * The top headlines (without a search query) go through a local Room cache, so the last list
+ * received is still shown offline.
  */
 class NewsRepositoryImpl(
     private val headlinesPagingSourceFactory: NewsPagingSourceFactory,
-    private val everythingPagingSourceFactory: EverythingPagingSourceFactory
+    private val everythingPagingSourceFactory: EverythingPagingSourceFactory,
+    private val remoteDataSource: NewsRemoteDataSource,
+    private val headlinesDao: HeadlinesDao,
+    private val now: () -> Long = System::currentTimeMillis
 ) : NewsRepository {
 
     /**
@@ -34,6 +47,7 @@ class NewsRepositoryImpl(
         category: String?,
         query: String?
     ): Flow<PagingData<Article>> {
+        if (query == null) return cachedTopHeadlines(country, category)
         return Pager(
             config = PagingConfig(
                 pageSize = 20,
@@ -48,6 +62,29 @@ class NewsRepositoryImpl(
             }
         ).flow
     }
+
+    /** Top headlines read from the local cache, which [HeadlinesRemoteMediator] fills from NewsAPI. */
+    @OptIn(ExperimentalPagingApi::class)
+    private fun cachedTopHeadlines(country: String, category: String?): Flow<PagingData<Article>> {
+        val cacheKey = headlinesCacheKey(country, category)
+        return Pager(
+            config = PagingConfig(
+                pageSize = 20,
+                enablePlaceholders = false
+            ),
+            remoteMediator = HeadlinesRemoteMediator(
+                remoteDataSource = remoteDataSource,
+                dao = headlinesDao,
+                country = country,
+                category = category,
+                now = now
+            ),
+            pagingSourceFactory = { headlinesDao.pagingSource(cacheKey) }
+        ).flow.map { pagingData -> pagingData.map { it.toDomain() } }
+    }
+
+    override fun headlinesUpdatedAt(country: String, category: String?): Flow<Long?> =
+        headlinesDao.updatedAt(headlinesCacheKey(country, category))
 
     /**
      * Fetches paginated results using the `/v2/everything` endpoint.

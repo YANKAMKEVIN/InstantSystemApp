@@ -49,6 +49,7 @@
     <string name="live_badge" translatable="false">LIVE</string>
     <string name="retry">Retry</string>
     <string name="append_error">Couldn’t load more articles.</string>
+    <string name="headlines_cached_at">Last list received: %1$s</string>
     <string name="empty_title">No results</string>
     <string name="empty_subtitle">Try changing your search.</string>
     <string name="error_title">Something went wrong</string>

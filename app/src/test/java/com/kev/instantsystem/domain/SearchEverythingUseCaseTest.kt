@@ -34,6 +34,8 @@ class SearchEverythingUseCaseTest {
                 country: String, category: String?, query: String?
             ) = throw NotImplementedError()
 
+            override fun headlinesUpdatedAt(country: String, category: String?) = flowOf<Long?>(null)
+
             override fun searchEverything(
                 query: String,
                 sortBy: String?,
