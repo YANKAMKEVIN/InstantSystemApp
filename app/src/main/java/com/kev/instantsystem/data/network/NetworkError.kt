@@ -39,6 +39,12 @@ interface NetworkError {
             get() = -2
     }
 
+    /** NewsAPI daily / per-period request quota reached (free plan). */
+    class TooManyRequests(override val message: String) : NetworkError {
+        override val code: Int
+            get() = 429
+    }
+
     /** The app was built without NEWS_API_KEY: no request can succeed. */
     class MissingApiKey(override val message: String) : NetworkError {
         override val code: Int

@@ -23,7 +23,7 @@ NEWS_API_KEY=your_api_key_here
 ```
 
 Then rebuild the app. Without this key the app still compiles, but every screen shows
-"Clé API NewsAPI manquante…" instead of articles.
+"Clé API NewsAPI manquante…" ("NewsAPI key missing…" in English) instead of articles.
 
 ---
 

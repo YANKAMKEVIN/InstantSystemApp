@@ -27,8 +27,8 @@ object NetworkUtil {
             // Handle HTTP exceptions like 4xx, 5xx
             NetworkResponse.Failure(mapError(e))
         } catch (e: IOException) {
-            // Handle IOExceptions (e.g., network errors)
-            NetworkResponse.Failure(NetworkError.Unknown(e.message ?: "Network Error"))
+            // No connection, unknown host, timeout: the request never got an answer
+            NetworkResponse.Failure(NetworkError.UnResolveAddress(e.message ?: "Network Error"))
         } catch (e: Exception) {
             // Catch any other exceptions and emit an unknown error
             NetworkResponse.Failure(NetworkError.Unknown(e.message ?: "Unknown Error"))
@@ -50,6 +50,7 @@ object NetworkUtil {
             401 -> NetworkError.Unauthorized(exception.message ?: "Unauthorized")
             403 -> NetworkError.Forbidden(exception.message ?: "Forbidden")
             404 -> NetworkError.NotFound(exception.message ?: "Not Found")
+            429 -> NetworkError.TooManyRequests(exception.message ?: "Too Many Requests")
             500 -> NetworkError.InternalServerError(exception.message ?: "Internal Server Error")
             else -> NetworkError.Unknown(exception.message ?: "Unknown HTTP Error")
         }

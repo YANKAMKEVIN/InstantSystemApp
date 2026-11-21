@@ -39,8 +39,7 @@ fun PagedArticlesContent(
 
         ListContent.Error -> LoaderScreen(
             state = LoaderState.Error,
-            errorMessage = (refresh as? LoadState.Error)?.error?.message
-                ?: stringResource(R.string.error_unknown),
+            errorMessage = stringResource(errorMessageRes((refresh as? LoadState.Error)?.error)),
             onRetry = { articles.retry() }
         )
 

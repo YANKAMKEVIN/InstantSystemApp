@@ -53,7 +53,10 @@
     <string name="empty_subtitle">Try changing your search.</string>
     <string name="error_title">Something went wrong</string>
     <string name="error_message">Check your connection or try again later.</string>
-    <string name="error_unknown">Unknown error</string>
+    <string name="error_offline">No internet connection. Check your network and try again.</string>
+    <string name="error_missing_api_key">NewsAPI key missing: add NEWS_API_KEY=&lt;your key&gt; to local.properties, then rebuild the app (see the README).</string>
+    <string name="error_invalid_api_key">NewsAPI refused the API key. Check NEWS_API_KEY in local.properties.</string>
+    <string name="error_rate_limited">NewsAPI request limit reached. Try again later.</string>
     <string name="error_image_description">Error</string>
 
     <!-- Article details -->

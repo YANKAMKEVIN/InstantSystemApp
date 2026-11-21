@@ -159,6 +159,11 @@ class NewsPagingSourceTest {
 
         assert(result.throwable is Exception)
         assert((result.throwable as Exception).message!!.contains("Internal Server Error"))
+        // The screens map the carried NetworkError to a message in the interface language
+        org.junit.Assert.assertTrue(
+            (result.throwable as com.kev.instantsystem.data.network.NetworkException).error
+                is com.kev.instantsystem.data.network.NetworkError.InternalServerError
+        )
     }
 
     @Test
