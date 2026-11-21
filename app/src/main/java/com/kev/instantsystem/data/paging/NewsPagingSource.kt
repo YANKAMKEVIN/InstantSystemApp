@@ -3,6 +3,7 @@ package com.kev.instantsystem.data.paging
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.kev.instantsystem.data.mapper.toDomain
+import com.kev.instantsystem.data.network.NetworkException
 import com.kev.instantsystem.data.network.NetworkResponse
 import com.kev.instantsystem.data.remote.datasource.NewsRemoteDataSource
 import com.kev.instantsystem.domain.model.Article
@@ -47,7 +48,7 @@ class NewsPagingSource(
             }
 
             is NetworkResponse.Failure -> {
-                LoadResult.Error(Exception(result.error.message))
+                LoadResult.Error(NetworkException(result.error))
             }
         }
 

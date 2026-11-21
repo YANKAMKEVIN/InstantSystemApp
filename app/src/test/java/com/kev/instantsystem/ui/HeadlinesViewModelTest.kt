@@ -10,6 +10,7 @@ import com.kev.instantsystem.testutils.DummyListUpdateCallback
 import com.kev.instantsystem.ui.headlines.ArticleCategory
 import com.kev.instantsystem.ui.headlines.HeadlinesViewModel
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
@@ -59,6 +60,7 @@ class HeadlinesViewModelTest {
             coEvery {
                 useCase(country = "us", category = category.category, query = null)
             } returns flowOf(pagingData)
+            every { useCase.updatedAt(country = "us", category = category.category) } returns flowOf(null)
         }
 
         viewModel = HeadlinesViewModel(useCase)

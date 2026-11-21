@@ -37,4 +37,8 @@ class GetTopHeadlinesUseCase @Inject constructor(
             query = query
         )
     }
+
+    /** When the cached headlines shown offline were received (epoch milliseconds), or null. */
+    fun updatedAt(country: String, category: String? = null): Flow<Long?> =
+        repository.headlinesUpdatedAt(country = country, category = category)
 }

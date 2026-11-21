@@ -4,6 +4,9 @@ import androidx.annotation.StringRes
 import com.kev.instantsystem.R
 
 sealed class ArticleCategory(@StringRes val labelRes: Int, val category: String?) {
+    /** Tells the lists of the tabs apart (refresh failure messages). */
+    val listKey: String get() = category ?: "latest"
+
     data object Latest : ArticleCategory(R.string.category_latest, null)
     data object Science : ArticleCategory(R.string.category_science, "science")
     data object Sports : ArticleCategory(R.string.category_sports, "sports")

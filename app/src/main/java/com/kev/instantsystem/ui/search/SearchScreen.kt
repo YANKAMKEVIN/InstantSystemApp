@@ -40,6 +40,7 @@ import com.kev.instantsystem.ui.bookmarks.rememberBookmarkToggle
 import com.kev.instantsystem.ui.components.EmptyListPlaceholder
 import com.kev.instantsystem.ui.components.NewsDetailPane
 import com.kev.instantsystem.ui.components.PagedArticlesContent
+import com.kev.instantsystem.ui.components.RefreshFailureReporter
 import com.kev.instantsystem.ui.placeholder.ScreenPlaceholder
 import kotlinx.coroutines.launch
 
@@ -59,7 +60,8 @@ fun SearchRoute(
         onSearch = viewModel::onSearchSubmitted,
         onSuggestionSelected = viewModel::onSuggestionSelected,
         articles = articles,
-        onArticleLongClick = rememberBookmarkToggle()
+        onArticleLongClick = rememberBookmarkToggle(),
+        refreshFailures = viewModel
     )
 }
 
@@ -75,6 +77,7 @@ fun SearchScreen(
     onSearch: () -> Unit = {},
     onSuggestionSelected: (String) -> Unit = onQueryChange,
     onArticleLongClick: ((Article) -> Unit)? = null,
+    refreshFailures: RefreshFailureReporter? = null,
 ) {
     val navigator = rememberListDetailPaneScaffoldNavigator<Any>()
     val scope = rememberCoroutineScope()
@@ -136,6 +139,8 @@ fun SearchScreen(
 
                 PagedArticlesContent(
                     articles = articles,
+                    refreshFailures = refreshFailures,
+                    listKey = SEARCH_LIST_KEY,
                     onArticleLongClick = onArticleLongClick,
                     onArticleClick = { article ->
                         scope.launch {
@@ -165,3 +170,4 @@ fun SearchScreen(
         }
     )
 }
+const val SEARCH_LIST_KEY = "search"

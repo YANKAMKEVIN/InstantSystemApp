@@ -56,6 +56,11 @@ android {
     }
 }
 
+ksp {
+    // Exported Room schemas (one JSON file per database version), needed to write migrations.
+    arg("room.schemaLocation", "$projectDir/schemas")
+}
+
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -70,7 +75,6 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.coil)
     implementation(libs.androidx.browser)
-    implementation(libs.androidx.biometric)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.adaptive.navigation.android)
@@ -82,6 +86,12 @@ dependencies {
     //Paging
     implementation(libs.androidx.paging.runtime)
     implementation(libs.androidx.paging.compose)
+
+    //Room (offline cache of the top headlines)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.paging)
+    ksp(libs.androidx.room.compiler)
 
     //Hilt
     implementation(libs.hilt.android)

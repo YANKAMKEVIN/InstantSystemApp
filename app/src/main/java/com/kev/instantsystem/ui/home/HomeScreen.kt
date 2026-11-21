@@ -18,6 +18,7 @@ import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.kev.instantsystem.domain.model.Article
+import com.kev.instantsystem.ui.components.RefreshFailureReporter
 import com.kev.instantsystem.domain.model.Source
 import com.kev.instantsystem.ui.bookmarks.rememberBookmarkToggle
 import com.kev.instantsystem.ui.components.NewsDetailPane
@@ -44,6 +45,7 @@ fun HomeRoute(
         articles = articles,
         onDetailVisibilityChanged = onDetailVisibilityChanged,
         onArticleLongClick = rememberBookmarkToggle(),
+        refreshFailures = viewModel,
     )
 }
 
@@ -53,7 +55,8 @@ private fun HomeScreen(
     modifier: Modifier = Modifier,
     onDetailVisibilityChanged: (Boolean) -> Unit,
     articles: LazyPagingItems<Article>,
-    onArticleLongClick: ((Article) -> Unit)? = null
+    onArticleLongClick: ((Article) -> Unit)? = null,
+    refreshFailures: RefreshFailureReporter? = null
 ) {
     val navigator = rememberListDetailPaneScaffoldNavigator<Any>()
     val scope = rememberCoroutineScope()
@@ -64,6 +67,7 @@ private fun HomeScreen(
         listPane = {
             HomeListPane(
                 articles = articles,
+                refreshFailures = refreshFailures,
                 onArticleLongClick = onArticleLongClick,
                 onArticleClick = { article ->
                     scope.launch {

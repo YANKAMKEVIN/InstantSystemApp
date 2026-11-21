@@ -6,11 +6,14 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.kev.instantsystem.domain.model.Article
 import com.kev.instantsystem.domain.usecase.SearchEverythingUseCase
+import com.kev.instantsystem.ui.components.RefreshFailureReporter
+import com.kev.instantsystem.ui.components.RefreshFailures
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
+import java.util.Locale
 import javax.inject.Inject
 
 /**
@@ -20,13 +23,18 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val searchEverythingUseCase: SearchEverythingUseCase
-) : ViewModel() {
+) : ViewModel(), RefreshFailureReporter by RefreshFailures() {
 
-    private val _language = MutableStateFlow("fr")
+    /**
+     * Starts from the device language, so the first search is already the right one (it used to
+     * start in "fr" and be replaced as soon as [HomeRoute] passed the device language).
+     */
+    private val _language = MutableStateFlow(newsApiLanguage(Locale.getDefault().language))
     val language = _language
 
+    /** Same language as now: no new search. Unsupported languages fall back to English. */
     fun setLanguage(lang: String) {
-        _language.value = lang
+        _language.value = newsApiLanguage(lang)
     }
 
     /**

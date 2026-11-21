@@ -4,6 +4,7 @@ import androidx.compose.ui.res.stringResource
 import com.kev.instantsystem.R
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -18,7 +19,9 @@ fun NewsListPane(
     categories: List<ArticleCategory>,
     articlesMap: Map<ArticleCategory, Flow<PagingData<Article>>>,
     onArticleClick: (Article) -> Unit,
-    onArticleLongClick: ((Article) -> Unit)? = null
+    onArticleLongClick: ((Article) -> Unit)? = null,
+    updatedAtMap: Map<ArticleCategory, Flow<Long?>> = emptyMap(),
+    refreshFailures: RefreshFailureReporter? = null
 ) {
     ScrollableTabRowComponent(
         tabs = categories.map { stringResource(it.labelRes) },
@@ -26,6 +29,9 @@ fun NewsListPane(
             {
                 NewsCategoryContent(
                     articlesFlow = articlesMap[category],
+                    updatedAtFlow = updatedAtMap[category],
+                    refreshFailures = refreshFailures,
+                    listKey = category.listKey,
                     onArticleClick = onArticleClick,
                     onArticleLongClick = onArticleLongClick
                 )
@@ -38,14 +44,21 @@ fun NewsListPane(
 private fun NewsCategoryContent(
     articlesFlow: Flow<PagingData<Article>>?,
     onArticleClick: (Article) -> Unit,
-    onArticleLongClick: ((Article) -> Unit)? = null
+    onArticleLongClick: ((Article) -> Unit)? = null,
+    updatedAtFlow: Flow<Long?>? = null,
+    refreshFailures: RefreshFailureReporter? = null,
+    listKey: String = ""
 ) {
     if (articlesFlow == null) {
         Text(stringResource(R.string.category_empty))
     } else {
         val articles = articlesFlow.collectAsLazyPagingItems()
+        val updatedAt = updatedAtFlow?.collectAsState(initial = null)?.value
         PagedArticlesContent(
             articles = articles,
+            cachedAt = updatedAt,
+            refreshFailures = refreshFailures,
+            listKey = listKey,
             onArticleClick = onArticleClick,
             onArticleLongClick = onArticleLongClick
         )

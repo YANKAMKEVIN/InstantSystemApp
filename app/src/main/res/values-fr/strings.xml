@@ -46,11 +46,18 @@
     <!-- Lists and states -->
     <string name="retry">Réessayer</string>
     <string name="append_error">Impossible de charger plus d’articles.</string>
+    <string name="headlines_cached_at">Dernière liste reçue : %1$s</string>
+    <string name="refresh_error">Impossible d’actualiser la liste.</string>
+    <string name="refresh_error_offline">Actualisation impossible : pas de connexion internet.</string>
+    <string name="refresh_error_rate_limited">Actualisation impossible : limite de requêtes NewsAPI atteinte.</string>
     <string name="empty_title">Aucun résultat</string>
     <string name="empty_subtitle">Essayez de modifier vos critères de recherche.</string>
     <string name="error_title">Une erreur s’est produite</string>
     <string name="error_message">Vérifiez votre connexion ou réessayez plus tard.</string>
-    <string name="error_unknown">Erreur inconnue</string>
+    <string name="error_offline">Pas de connexion internet. Vérifiez votre réseau, puis réessayez.</string>
+    <string name="error_missing_api_key">Clé API NewsAPI manquante : ajoutez NEWS_API_KEY=&lt;votre clé&gt; dans local.properties, puis recompilez l’application (voir le README).</string>
+    <string name="error_invalid_api_key">NewsAPI a refusé la clé API. Vérifiez NEWS_API_KEY dans local.properties.</string>
+    <string name="error_rate_limited">Limite de requêtes NewsAPI atteinte. Réessayez plus tard.</string>
     <string name="error_image_description">Erreur</string>
 
     <!-- Article details -->

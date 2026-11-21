@@ -83,3 +83,14 @@ fun formatRelativeTime(
 /** "Le Monde · il y a 2 h", leaving out whichever part is missing. */
 fun articleByline(sourceName: String, relativeTime: String): String =
     listOf(sourceName, relativeTime).filter { it.isNotBlank() }.joinToString(" · ")
+
+/**
+ * Date of the cached top headlines shown offline: "21 nov. à 18:04" / "Nov 21 at 18:04".
+ */
+fun formatCacheDate(
+    epochMillis: Long,
+    locale: Locale = Locale.getDefault(),
+    zone: ZoneId = ZoneId.systemDefault()
+): String = DateTimeFormatter
+    .ofPattern(if (locale.language == "fr") "d MMM 'à' HH:mm" else "MMM d 'at' HH:mm", locale)
+    .format(Instant.ofEpochMilli(epochMillis).atZone(zone))

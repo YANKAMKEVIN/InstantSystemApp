@@ -29,6 +29,12 @@ interface NewsRepository {
     ): Flow<PagingData<Article>>
 
     /**
+     * When the cached top headlines for this country and category were received (epoch
+     * milliseconds), or null when nothing is cached yet. Shown when the list cannot be reloaded.
+     */
+    fun headlinesUpdatedAt(country: String, category: String? = null): Flow<Long?>
+
+    /**
      * Performs a full-text search for articles across all sources using the `/v2/everything` endpoint.
      *
      * This is useful for more advanced search and discovery scenarios.

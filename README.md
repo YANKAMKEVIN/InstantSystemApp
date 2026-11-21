@@ -7,6 +7,9 @@ Developed with Jetpack Compose and Kotlin using a Clean Architecture approach.
 
 - 🔍 Search news articles dynamically
 - 🧭 Browse top headlines by categories
+- 🔖 Bookmark articles and read them later in the "Lectures" tab
+- 📴 Top headlines available offline: the last list received is shown, with the date it was received
+- 🔁 A reload that fails while articles are on screen keeps them and shows a message at the bottom with "Retry"
 - 📱 Adaptive layout with master-detail (tablet-friendly)
 - 🌙 Modern UI with Material 3
 - ✅ Unit and UI tests (ViewModel, UseCases, Composables)
@@ -23,7 +26,7 @@ NEWS_API_KEY=your_api_key_here
 ```
 
 Then rebuild the app. Without this key the app still compiles, but every screen shows
-"Clé API NewsAPI manquante…" instead of articles.
+"Clé API NewsAPI manquante…" ("NewsAPI key missing…" in English) instead of articles.
 
 ---
 
@@ -33,7 +36,7 @@ The app uses **Clean MVVM Architecture** with the following layers:
 
 - **UI Layer**: Jetpack Compose + Hilt-powered ViewModels  
 - **Domain Layer**: Use cases + repository interfaces (business rules)  
-- **Data Layer**: Retrofit API, Paging3 integration
+- **Data Layer**: Retrofit API, Paging3 integration, Room cache of the top headlines (`RemoteMediator`)
 
 This ensures:
 - Separation of concerns
@@ -54,6 +57,7 @@ This ensures:
 | DI           | Hilt                                          | Clean dependency management |
 | Networking   | Retrofit + OkHttp                             | Standard, robust API handling |
 | Paging       | Paging 3                                      | Efficient pagination |
+| Offline cache| Room (+ `room-paging`, `RemoteMediator`)      | Top headlines readable offline |
 | Image Loading| Coil                                          | Fast and lightweight |
 | Testing      | JUnit, Turbine, Mockk, Compose UI testing     | Full test coverage support |
 
@@ -73,17 +77,23 @@ This ensures:
 
 - **Jetpack Compose**: To build modern UIs with less boilerplate.
 - **Material 3 Adaptive Navigation**: To demonstrate ability to build tablet-friendly master-detail views.
-- **No Room/Offline Support**: Given the scope, I prioritized API interaction and UI instead of offline storage.
-- **No favorites/bookmarking system**: To stay focused on core features and maintain clarity in responsibilities.
+- **Offline cache for the top headlines only**: Room stores the last list received for each category of the
+  "À la une" screen (read through a `RemoteMediator`). Offline, that list stays on screen with the date it was
+  received. Home and search results are not cached. The Room schema is exported to `app/schemas` for future
+  migrations (version 1: no database existed before, so there is no migration yet).
+- **Bookmarks without Room**: Bookmarked articles are stored on the device in SharedPreferences (JSON via Gson, already
+  used by Retrofit), to avoid a database for a short list.
+- **Recent searches in SharedPreferences**: the 5 latest searches are kept between launches, stored like the
+  bookmarks (JSON via Gson).
 - **Single Activity architecture**: Recommended pattern with Compose Navigation.
 
 ---
 
 ## 🚧 Known limitations / improvements
 
-- 🌐 No offline caching (Room + RemoteMediator could be added)
-- ✨ No saved states between tab switches
-- 🌍 Language is hardcoded to "us" in top headlines, could be dynamic from locale
+- 🌐 Only the top headlines are cached offline (not the home feed nor search results)
+- 🌍 The home feed follows the device language (English when NewsAPI does not support it); top headlines stay on
+  the "us" country on purpose
 - 🧪 No end-to-end (instrumented) tests, only UI + unit tests
 
 ---

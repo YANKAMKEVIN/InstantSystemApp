@@ -1,6 +1,8 @@
 package com.kev.instantsystem.ui
 
+import com.kev.instantsystem.data.search.RecentSearchesRepository
 import com.kev.instantsystem.domain.usecase.SearchEverythingUseCase
+import com.kev.instantsystem.testutils.InMemoryRecentSearchStorage
 import com.kev.instantsystem.ui.search.SearchViewModel
 import com.kev.instantsystem.ui.search.addRecentSearch
 import io.mockk.mockk
@@ -47,7 +49,10 @@ class SearchSuggestionsTest {
 
     @Test
     fun `submitting the query or picking a topic records it`() {
-        val viewModel = SearchViewModel(mockk<SearchEverythingUseCase>(relaxed = true))
+        val viewModel = SearchViewModel(
+            mockk<SearchEverythingUseCase>(relaxed = true),
+            RecentSearchesRepository(InMemoryRecentSearchStorage())
+        )
 
         viewModel.onQueryChanged("bitcoin")
         viewModel.onSearchSubmitted()

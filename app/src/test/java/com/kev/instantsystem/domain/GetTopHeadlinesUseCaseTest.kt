@@ -52,6 +52,8 @@ class GetTopHeadlinesUseCaseTest {
                 )
             )
 
+            override fun headlinesUpdatedAt(country: String, category: String?) = flowOf<Long?>(null)
+
             override fun searchEverything(
                 query: String,
                 sortBy: String?,
