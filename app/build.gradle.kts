@@ -70,7 +70,6 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.coil)
     implementation(libs.androidx.browser)
-    implementation(libs.androidx.biometric)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.adaptive.navigation.android)
