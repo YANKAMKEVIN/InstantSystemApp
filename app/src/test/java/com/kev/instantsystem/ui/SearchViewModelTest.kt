@@ -3,7 +3,9 @@ package com.kev.instantsystem.ui
 import androidx.paging.PagingData
 import com.kev.instantsystem.domain.model.Article
 import com.kev.instantsystem.domain.model.Source
+import com.kev.instantsystem.data.search.RecentSearchesRepository
 import com.kev.instantsystem.domain.usecase.SearchEverythingUseCase
+import com.kev.instantsystem.testutils.InMemoryRecentSearchStorage
 import com.kev.instantsystem.testutils.DummyDiffCallback
 import com.kev.instantsystem.testutils.DummyListUpdateCallback
 import com.kev.instantsystem.ui.search.SearchViewModel
@@ -51,7 +53,7 @@ class SearchViewModelTest {
         coEvery { useCase.invoke("bitcoin", any(), any(), any(), any()) } returns flowOf(
             PagingData.from(listOf(fakeArticle))
         )
-        viewModel = SearchViewModel(useCase)
+        viewModel = SearchViewModel(useCase, RecentSearchesRepository(InMemoryRecentSearchStorage()))
     }
 
     @After

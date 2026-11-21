@@ -82,6 +82,8 @@ This ensures:
   migrations (version 1: no database existed before, so there is no migration yet).
 - **Bookmarks without Room**: Bookmarked articles are stored on the device in SharedPreferences (JSON via Gson, already
   used by Retrofit), to avoid a database for a short list.
+- **Recent searches in SharedPreferences**: the 5 latest searches are kept between launches, stored like the
+  bookmarks (JSON via Gson).
 - **Single Activity architecture**: Recommended pattern with Compose Navigation.
 
 ---
@@ -91,7 +93,6 @@ This ensures:
 - 🌐 Only the top headlines are cached offline (not the home feed nor search results)
 - 🌍 The home feed follows the device language (English when NewsAPI does not support it); top headlines stay on
   the "us" country on purpose
-- 🕘 Recent searches are kept for the session only
 - 🧪 No end-to-end (instrumented) tests, only UI + unit tests
 
 ---
