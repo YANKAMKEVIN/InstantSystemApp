@@ -7,6 +7,7 @@ Developed with Jetpack Compose and Kotlin using a Clean Architecture approach.
 
 - 🔍 Search news articles dynamically
 - 🧭 Browse top headlines by categories
+- 🔖 Bookmark articles and read them later in the "Lectures" tab
 - 📱 Adaptive layout with master-detail (tablet-friendly)
 - 🌙 Modern UI with Material 3
 - ✅ Unit and UI tests (ViewModel, UseCases, Composables)
@@ -74,7 +75,8 @@ This ensures:
 - **Jetpack Compose**: To build modern UIs with less boilerplate.
 - **Material 3 Adaptive Navigation**: To demonstrate ability to build tablet-friendly master-detail views.
 - **No Room/Offline Support**: Given the scope, I prioritized API interaction and UI instead of offline storage.
-- **No favorites/bookmarking system**: To stay focused on core features and maintain clarity in responsibilities.
+- **Bookmarks without Room**: Bookmarked articles are stored on the device in SharedPreferences (JSON via Gson, already
+  used by Retrofit), to avoid a database for a short list.
 - **Single Activity architecture**: Recommended pattern with Compose Navigation.
 
 ---
@@ -82,8 +84,9 @@ This ensures:
 ## 🚧 Known limitations / improvements
 
 - 🌐 No offline caching (Room + RemoteMediator could be added)
-- ✨ No saved states between tab switches
-- 🌍 Language is hardcoded to "us" in top headlines, could be dynamic from locale
+- 🌍 The home feed follows the device language (English when NewsAPI does not support it), but top headlines are
+  still hardcoded to the "us" country
+- 🕘 Recent searches are kept for the session only
 - 🧪 No end-to-end (instrumented) tests, only UI + unit tests
 
 ---
